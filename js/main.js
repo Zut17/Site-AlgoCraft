@@ -131,19 +131,28 @@
     if (!valide) { afficherStatut("Merci de vérifier les champs signalés.", "erreur"); return; }
 
     const sujet = `[AlgoCraft] ${donnees.sujet} — ${donnees.nom}`;
-    if (config.FORMULAIRE_ENDPOINT) {
+    // Une adresse e-mail seule dans FORMULAIRE_ENDPOINT est acceptée : elle passe par FormSubmit
+    let adresseEnvoi = (config.FORMULAIRE_ENDPOINT || "").trim();
+    if (adresseEnvoi && !adresseEnvoi.includes("://") && adresseEnvoi.includes("@"))
+      adresseEnvoi = "https://formsubmit.co/ajax/" + adresseEnvoi;
+    if (adresseEnvoi) {
       const bouton = $("#btnEnvoyer");
       bouton.disabled = true; bouton.textContent = "Envoi…";
       try {
-        const r = await fetch(config.FORMULAIRE_ENDPOINT, {
+        const r = await fetch(adresseEnvoi, {
           method: "POST",
           headers: { "Content-Type": "application/json", "Accept": "application/json" },
           body: JSON.stringify({ nom: donnees.nom, email: donnees.email, sujet: donnees.sujet, message: donnees.message, _subject: sujet, _replyto: donnees.email })
         });
-        if (!r.ok) throw new Error("HTTP " + r.status);
+        const reponse = await r.json().catch(() => ({}));
+        if (!r.ok || reponse.success === false || reponse.success === "false") throw new Error(reponse.message || "HTTP " + r.status);
         form.reset();
         afficherStatut("Votre message a bien été envoyé.", "ok");
       } catch (err) {
+        if (/activat/i.test(err && err.message || "")) {
+          afficherStatut("Le formulaire attend son activation : un e-mail de FormSubmit a été envoyé à l'adresse de réception, cliquez sur son lien puis réessayez.", "erreur");
+          return;
+        }
         afficherStatut("L'envoi a échoué. Réessayez plus tard" + (config.CONTACT_EMAIL ? " ou écrivez à " + config.CONTACT_EMAIL : "") + ".", "erreur");
       } finally {
         bouton.disabled = false; bouton.textContent = "Envoyer le message";

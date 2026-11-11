@@ -2,6 +2,6 @@
   "cleanUrls": true,
   "headers": [
     { "source": "/telechargements/(.*)", "headers": [ { "key": "Content-Disposition", "value": "attachment" } ] },
-    { "source": "/(css|js|img)/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=86400" } ] }
+    { "source": "/(css|js|img)/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" } ] }
   ]
 }
