@@ -5,7 +5,7 @@ window.ALGOCRAFT_CONFIG = {
   // Adresse qui reçoit le formulaire de contact (service de formulaires, par exemple
   // https://formspree.io/f/xxxxxxx ou https://formsubmit.co/ajax/votre-adresse).
   // Laisser vide : le formulaire ouvre la messagerie du visiteur vers CONTACT_EMAIL.
-  FORMULAIRE_ENDPOINT: "",
+  FORMULAIRE_ENDPOINT: "zuteuhenrywilliam@gmail.com",
 
   // Adresse e-mail de l'équipe (utilisée si FORMULAIRE_ENDPOINT est vide).
   CONTACT_EMAIL: "zuteuhenrywilliam@gmail.com",
