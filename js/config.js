@@ -8,7 +8,7 @@ window.ALGOCRAFT_CONFIG = {
   FORMULAIRE_ENDPOINT: "",
 
   // Adresse e-mail de l'équipe (utilisée si FORMULAIRE_ENDPOINT est vide).
-  CONTACT_EMAIL: "",
+  CONTACT_EMAIL: "zuteuhenrywilliam@gmail.com",
 
   // Lien de téléchargement de l'application (fichier dans telechargements/ ou lien externe,
   // par exemple une « Release » GitHub).
