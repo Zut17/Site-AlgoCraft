@@ -1,0 +1,9 @@
+Déposez ici l'archive de l'application : AlgoCraft-2.19-win-x64.zip
+
+Pour la fabriquer, lancez depuis la racine de la solution (PowerShell) :
+    .\publier-application.ps1
+
+Le script compile une version autonome (.NET 8 inclus), la compresse et la copie
+dans ce dossier. Publiez ensuite le site (git push ou « vercel --prod »).
+Si l'archive dépasse la taille autorisée par l'hébergeur, déposez-la plutôt sur
+une « Release » GitHub et mettez son adresse dans js/config.js (LIEN_TELECHARGEMENT).

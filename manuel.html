@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manuel d'utilisation — AlgoCraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Même direction artistique que le site : papier crème, encre bleu nuit, or en accent ;
+     Newsreader (titres) et IBM Plex Sans (texte) si disponibles, sinon Georgia et Segoe UI. */
+  :root {
+    --fond: #faf8f3; --panneau: #f2eee4; --barre: #ebe5d8; --bord: #ddd6c7; --trait: #857d6b;
+    --texte: #1c1f26; --doux: #545a66; --encre: #14213d; --or: #b5832a; --blanc: #fff;
+    --accent: #14213d; --vert: #1f5c32; --rouge: #a12a1c; --orange: #7a4f12; --violet: #14213d;
+    --serif: "Newsreader", Georgia, "Times New Roman", serif;
+    --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    --mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; font: 400 16px/1.7 var(--sans); color: var(--texte); background: var(--fond); -webkit-font-smoothing: antialiased; }
+  a { color: var(--encre); text-decoration: underline; text-decoration-color: #bfb6a3; text-underline-offset: 3px; }
+  a:hover { text-decoration-color: var(--or); }
+  :focus-visible { outline: 2px solid var(--encre); outline-offset: 2px; }
+  .page { display: grid; grid-template-columns: 296px minmax(0, 1fr); min-height: 100vh; }
+  nav { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: var(--fond); border-right: 1px solid var(--bord); padding: 32px 24px 48px; }
+  .logo { font: 600 22px/1 var(--serif); color: var(--encre); margin: 0 0 8px; }
+  .logo span.icone { display: none; }
+  .sous-logo { color: var(--doux); font-size: 13px; margin: 0 0 24px; }
+  .sous-logo a { color: var(--doux); }
+  #filtre { width: 100%; padding: 8px 12px; border: 1px solid var(--trait); border-radius: 2px; background: var(--blanc); color: var(--texte); font: inherit; font-size: 14px; margin-bottom: 16px; }
+  nav ol { list-style: none; padding: 0; margin: 0; }
+  nav li > a { display: block; padding: 4px 0 4px 12px; border-left: 2px solid transparent; color: var(--texte); font-size: 14px; text-decoration: none; }
+  nav li > a:hover { border-left-color: var(--bord); }
+  nav li > a.actif { border-left-color: var(--or); color: var(--encre); font-weight: 600; }
+  nav ol ol { margin: 0 0 8px 12px; } nav ol ol a { color: var(--doux); font-size: 13px; }
+  main { padding: 64px 64px 96px; max-width: 920px; }
+  header.titre { padding: 0 0 32px; margin-bottom: 16px; border-bottom: 1px solid var(--bord); }
+  header.titre h1 { margin: 0 0 16px; font: 400 48px/1.08 var(--serif); color: var(--encre); letter-spacing: -0.02em; max-width: 16ch; }
+  header.titre p { margin: 0; font: 400 20px/1.55 var(--serif); color: var(--texte); max-width: 40ch; }
+  h2 { font: 500 32px/1.2 var(--serif); color: var(--encre); margin: 80px 0 16px; padding-top: 24px; border-top: 1px solid var(--bord); letter-spacing: -0.01em; }
+  h2 .num { font: 400 32px/1 var(--serif); color: var(--or); margin-right: 16px; }
+  h3 { font: 500 22px/1.3 var(--serif); color: var(--encre); margin: 40px 0 8px; }
+  h4 { font: 600 15px/1.4 var(--sans); margin: 24px 0 8px; }
+  p, li { max-width: 68ch; }
+  code { font-family: var(--mono); font-size: 0.88em; background: var(--panneau); padding: 1px 6px; border-radius: 2px; }
+  pre { font: 13.5px/1.65 var(--mono); background: var(--blanc); border: 1px solid var(--bord); padding: 16px 24px; overflow-x: auto; margin: 16px 0 24px; }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  .kw { color: var(--encre); font-weight: 600; } .ty { color: var(--encre); } .st { color: #7a4f12; } .cm { color: var(--doux); font-style: italic; } .nb { color: var(--texte); }
+  kbd { display: inline-block; min-width: 22px; padding: 0 6px; border: 1px solid #bfb6a3; border-bottom-width: 2px; border-radius: 2px; background: var(--blanc); font: 12.5px/1.6 var(--mono); text-align: center; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0 24px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 8px 16px 8px 0; border-bottom: 1px solid var(--bord); vertical-align: top; }
+  th { font-weight: 600; color: var(--encre); border-bottom-color: var(--trait); }
+  .note, .astuce, .attention { border-left: 2px solid var(--or); padding: 4px 0 4px 16px; margin: 24px 0; max-width: 68ch; }
+  .astuce { border-color: var(--vert); }
+  .attention { border-color: var(--rouge); }
+  .note b:first-child, .astuce b:first-child, .attention b:first-child { display: block; margin-bottom: 2px; color: var(--encre); }
+  .zones { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0 32px; margin: 16px 0; border-top: 1px solid var(--bord); }
+  .zone { padding: 16px 0; border-bottom: 1px solid var(--bord); }
+  .zone h4 { margin: 0 0 4px; font: 500 17px/1.3 var(--serif); color: var(--encre); } .zone p { margin: 0; font-size: 14px; color: var(--doux); }
+  .schema { border: 1px solid var(--bord); margin: 16px 0; font-size: 12.5px; background: var(--blanc); }
+  .schema .l1 { padding: 8px 16px; border-bottom: 1px solid var(--bord); }
+  .schema .corps { display: grid; grid-template-columns: 22% 1fr 30%; min-height: 220px; }
+  .schema .corps > div { padding: 8px 16px; border-right: 1px solid var(--bord); }
+  .schema .bas { border-top: 1px solid var(--bord); padding: 8px 16px; }
+  .schema b { color: var(--encre); }
+  .haut { position: fixed; right: 24px; bottom: 24px; padding: 8px 12px; border: 1px solid var(--trait); background: var(--fond); color: var(--encre); font-size: 13px; text-decoration: none; }
+  .haut:hover { border-color: var(--encre); }
+  footer { margin-top: 80px; color: var(--doux); font-size: 13.5px; border-top: 1px solid var(--bord); padding-top: 16px; }
+  .cache { display: none !important; }
+  @media (max-width: 900px) { .page { grid-template-columns: 1fr; } nav { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--bord); } main { padding: 32px 24px 64px; } header.titre h1 { font-size: 36px; } }
+  @media print { nav, .haut, #filtre { display: none; } .page { display: block; } main { max-width: none; padding: 0; } h2 { break-before: page; } }
+</style>
+</head>
+<body>
+<div class="page">
+<nav aria-label="Sommaire">
+  <div class="logo">AlgoCraft</div>
+  <div class="sous-logo">Manuel d'utilisation · version 2.19<br><a href="https://algo-craft-ten.vercel.app/">Site d'AlgoCraft</a></div>
+  <input id="filtre" type="search" placeholder="Rechercher dans le manuel…" aria-label="Rechercher dans le manuel">
+  <ol id="sommaire">
+    <li><a href="#presentation">1. Présentation</a></li>
+    <li><a href="#installation">2. Installation et démarrage</a></li>
+    <li><a href="#interface">3. L'interface</a>
+      <ol><li><a href="#menus">Menus et barre d'outils</a></li><li><a href="#lateral">Barre latérale</a></li><li><a href="#panneau-bas">Panneau du bas</a></li><li><a href="#barre-etat">Barre d'état</a></li></ol></li>
+    <li><a href="#fichiers">4. Fichiers et projets</a></li>
+    <li><a href="#editeur">5. L'éditeur de code</a>
+      <ol><li><a href="#autocompletion">Autocomplétion</a></li><li><a href="#edition">Outils d'édition</a></li><li><a href="#verification">Vérification en direct</a></li></ol></li>
+    <li><a href="#langage">6. Le langage algorithmique</a>
+      <ol><li><a href="#structure">Structure d'un algorithme</a></li><li><a href="#types">Types et déclarations</a></li><li><a href="#instructions">Instructions</a></li><li><a href="#conditions">Conditions</a></li><li><a href="#boucles">Boucles</a></li><li><a href="#tableaux">Tableaux</a></li><li><a href="#structures">Structures</a></li><li><a href="#routines">Fonctions et procédures</a></li><li><a href="#operateurs">Opérateurs</a></li><li><a href="#integrees">Fonctions intégrées</a></li><li><a href="#anglais">Mots-clés anglais</a></li></ol></li>
+    <li><a href="#execution">7. Exécuter un algorithme</a>
+      <ol><li><a href="#console">Console et saisies</a></li><li><a href="#pasapas">Pas à pas</a></li><li><a href="#problemes">Problèmes</a></li><li><a href="#variables">Variables</a></li></ol></li>
+    <li><a href="#traduction">8. Traduction vers d'autres langages</a></li>
+    <li><a href="#algorigramme">9. Algorigramme</a></li>
+    <li><a href="#visualisation">10. Visualisation des tableaux</a></li>
+    <li><a href="#partage">11. Partager le code</a></li>
+    <li><a href="#exemples">12. Exemples intégrés</a></li>
+    <li><a href="#personnaliser">13. Thèmes, langue et préférences</a></li>
+    <li><a href="#raccourcis">14. Raccourcis clavier</a></li>
+    <li><a href="#depannage">15. Questions fréquentes</a></li>
+    <li><a href="#apropos">16. À propos</a></li>
+  </ol>
+</nav>
+
+<main>
+<header class="titre">
+  <h1>Manuel d'utilisation d'AlgoCraft</h1>
+  <p>Écrire, exécuter, comprendre et traduire des algorithmes en pseudo-code français — tout ce qu'il faut savoir, section par section.</p>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="presentation">
+<h2><span class="num">1</span>Présentation</h2>
+<p><b>AlgoCraft</b> est un éditeur pédagogique d'algorithmes. On y écrit des algorithmes en <b>pseudo-code français</b> (« Algorithme… Variables… Debut… Fin »), comme en cours, puis on peut :</p>
+<ul>
+  <li><b>les exécuter</b> immédiatement, avec saisie des valeurs dans la console ;</li>
+  <li><b>les suivre pas à pas</b> en observant l'évolution de chaque variable ;</li>
+  <li><b>les vérifier</b> : les erreurs sont soulignées pendant la frappe, avec une explication et un exemple de correction ;</li>
+  <li><b>les traduire</b> automatiquement en Python, C, C++, C#, Java ou JavaScript ;</li>
+  <li><b>les représenter</b> sous forme d'algorigramme (organigramme) exportable en image ;</li>
+  <li><b>visualiser les tableaux</b> case par case pendant l'exécution ;</li>
+  <li><b>les partager</b> (code ou traduction) par WhatsApp, Telegram, e-mail ou fichier.</li>
+</ul>
+<p>Le logiciel s'adresse aux élèves et étudiants qui apprennent l'algorithmique, et aux enseignants qui veulent illustrer leurs cours.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="installation">
+<h2><span class="num">2</span>Installation et démarrage</h2>
+<h3>Configuration requise</h3>
+<table>
+  <tr><th>Élément</th><th>Minimum</th></tr>
+  <tr><td>Système</td><td>Windows 10 ou Windows 11 (64 bits)</td></tr>
+  <tr><td>Environnement</td><td>.NET 8 Desktop Runtime (inclus dans la version « autonome » proposée sur le site)</td></tr>
+  <tr><td>Base de données</td><td>SQL Server LocalDB (facultatif : sert uniquement aux suggestions enregistrées)</td></tr>
+  <tr><td>Écran</td><td>1280 × 720 ou plus</td></tr>
+</table>
+<h3>Installer</h3>
+<ol>
+  <li>Téléchargez l'archive depuis le site d'AlgoCraft (menu <b>Aide › Télécharger la dernière version</b>).</li>
+  <li>Décompressez-la dans un dossier de votre choix (par exemple <code>Documents\AlgoCraft</code>).</li>
+  <li>Lancez <code>AlgoCraft version 2.0.exe</code>. Au premier lancement, l'extension <code>.agc</code> est associée à AlgoCraft : un double-clic sur un fichier <code>.agc</code> l'ouvrira directement.</li>
+</ol>
+<h3>Premier démarrage</h3>
+<p>Après l'écran de chargement, AlgoCraft ouvre un algorithme d'accueil qui montre une fonction et une procédure. Appuyez sur <kbd>F5</kbd> pour l'exécuter : le résultat s'affiche dans la console, en bas.</p>
+<p>Aux démarrages suivants, AlgoCraft <b>rouvre les fichiers qui étaient ouverts</b> lors de la dernière fermeture, ainsi que le fichier actif.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="interface">
+<h2><span class="num">3</span>L'interface</h2>
+<div class="schema" aria-hidden="true">
+  <div class="l1"><b>Menus</b> · Fichier · Édition · Exécution · Traduction · Affichage · Outils · Langue · Aide — puis la <b>barre d'outils</b></div>
+  <div class="corps">
+    <div><b>Barre latérale</b><br>Projet (fichiers ouverts)<br>Structure<br>Insertion rapide</div>
+    <div><b>Éditeur</b><br>onglets des fichiers ×<br>numéros de ligne, pliage, coloration</div>
+    <div><b>Traduction</b><br>Python · C · C++ · C# · Java · JavaScript</div>
+  </div>
+  <div class="bas"><b>Panneau du bas</b> : Console · Problèmes · Variables &nbsp;&nbsp;|&nbsp;&nbsp; <b>Barre d'état</b> : état, erreurs, position, langue, zoom</div>
+</div>
+
+<h3 id="menus">Menus et barre d'outils</h3>
+<table>
+  <tr><th>Menu</th><th>Contenu</th></tr>
+  <tr><td><b>Fichier</b></td><td>Nouveau fichier, nouveau projet, ouvrir, fichiers récents, exemples, enregistrer, enregistrer sous, exporter (texte, PDF, LaTeX, HTML), fermer, quitter.</td></tr>
+  <tr><td><b>Édition</b></td><td>Annuler / rétablir, couper / copier / coller, opérations sur la ligne, rechercher / remplacer, aller à la ligne, commenter, réindenter, <b>mots-clés en anglais / en français</b>.</td></tr>
+  <tr><td><b>Exécution</b></td><td>Exécuter (<kbd>F5</kbd>), arrêter (<kbd>Maj</kbd>+<kbd>F5</kbd>), pas à pas (<kbd>F10</kbd>), vérifier sans exécuter (<kbd>F7</kbd>), effacer la console.</td></tr>
+  <tr><td><b>Traduction</b></td><td>Choix du langage cible, ouverture dans une fenêtre, copie et enregistrement du code traduit.</td></tr>
+  <tr><td><b>Affichage</b></td><td>Thème, panneaux (latéral, traduction, console), taille du texte, messages d'erreur sous les lignes, vérification pendant la frappe.</td></tr>
+  <tr><td><b>Outils</b></td><td>Algorigramme, visualisation des tableaux, partager le code.</td></tr>
+  <tr><td><b>Langue</b></td><td>Interface en français ou en anglais.</td></tr>
+  <tr><td><b>Aide</b></td><td>Ce manuel (<kbd>F1</kbd>), mémo du langage, raccourcis clavier, site web, téléchargement, contact, à propos.</td></tr>
+</table>
+<p>La barre d'outils reprend les actions les plus utilisées : nouveau, ouvrir, enregistrer, annuler / rétablir, <b>Exécuter</b>, Arrêter, Pas-à-pas, Vérifier, le choix du langage de traduction, l'algorigramme, les tableaux, le thème et la langue. Survolez un bouton pour voir son rôle et son raccourci.</p>
+
+<h3 id="lateral">Barre latérale</h3>
+<div class="zones">
+  <div class="zone"><h4>Projet</h4><p>Les fichiers ouverts. Cliquez pour passer de l'un à l'autre ; un point ● signale un fichier modifié non enregistré. Boutons : nouveau fichier, ouvrir.</p></div>
+  <div class="zone"><h4>Structure</h4><p>Le plan de l'algorithme : son nom, chaque fonction et procédure (avec ses paramètres) et le programme principal. Un clic place le curseur sur la ligne correspondante.</p></div>
+  <div class="zone"><h4>Insertion rapide</h4><p>Des boutons classés par couleur (instructions, boucles, routines, fonctions mathématiques) qui insèrent un modèle prêt à compléter à l'emplacement du curseur.</p></div>
+</div>
+<p>La barre latérale se masque avec <kbd>Ctrl</kbd>+<kbd>B</kbd>.</p>
+
+<h3 id="panneau-bas">Panneau du bas</h3>
+<ul>
+  <li><b>Console</b> : affichage des résultats (<code>Ecrire</code>) et saisie des valeurs (<code>Lire</code>). Le bouton <b>Effacer</b> vide la console.</li>
+  <li><b>Problèmes</b> : liste des erreurs et avertissements ; un clic va à la ligne concernée. Le nombre de problèmes apparaît en pastille sur l'onglet.</li>
+  <li><b>Variables</b> : après une exécution, la valeur finale de chaque variable (double-clic : copie de la valeur).</li>
+</ul>
+<p>Le chevron à droite replie le panneau (<kbd>Ctrl</kbd>+<kbd>J</kbd> le rouvre).</p>
+
+<h3 id="barre-etat">Barre d'état</h3>
+<p>En bas de la fenêtre : l'état (prêt, exécution en cours, saisie attendue…), le nombre d'erreurs et d'avertissements (cliquable), la position du curseur (ligne, colonne), la langue des mots-clés, le zoom et l'encodage.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="fichiers">
+<h2><span class="num">4</span>Fichiers et projets</h2>
+<p>Les algorithmes sont enregistrés dans des fichiers texte d'extension <b><code>.agc</code></b> (encodage UTF-8). Plusieurs fichiers peuvent être ouverts en même temps : chacun a son <b>onglet</b> au-dessus de l'éditeur.</p>
+<table>
+  <tr><th>Action</th><th>Comment</th></tr>
+  <tr><td>Créer un fichier</td><td><kbd>Ctrl</kbd>+<kbd>N</kbd> ou le bouton « + » du panneau Projet.</td></tr>
+  <tr><td>Créer un projet</td><td><kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>N</kbd> : choisit un dossier et un nom ; le projet regroupe vos fichiers.</td></tr>
+  <tr><td>Ouvrir</td><td><kbd>Ctrl</kbd>+<kbd>O</kbd> (plusieurs fichiers possibles), glisser-déposer, double-clic sur un <code>.agc</code>, ou <b>Fichier › Fichiers récents</b>.</td></tr>
+  <tr><td>Enregistrer</td><td><kbd>Ctrl</kbd>+<kbd>S</kbd> ; « Enregistrer sous » pour choisir un autre nom.</td></tr>
+  <tr><td>Fermer un fichier</td><td>La <b>croix ×</b> de son onglet, un <b>clic milieu</b> sur l'onglet, ou <kbd>Ctrl</kbd>+<kbd>W</kbd>. AlgoCraft propose d'enregistrer s'il a été modifié.</td></tr>
+  <tr><td>Menu de l'onglet</td><td>Clic droit : fermer, fermer les autres, copier le chemin, afficher dans l'Explorateur.</td></tr>
+  <tr><td>Passer au fichier suivant</td><td><kbd>Ctrl</kbd>+<kbd>Tab</kbd>.</td></tr>
+  <tr><td>Exporter</td><td><b>Fichier › Exporter</b> : texte, PDF, LaTeX ou page HTML autonome.</td></tr>
+</table>
+<div class="astuce"><b>Astuce</b> Sur un onglet, le point ● remplace la croix tant que le fichier n'est pas enregistré ; survolez-le pour faire réapparaître la croix.</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="editeur">
+<h2><span class="num">5</span>L'éditeur de code</h2>
+<p>L'éditeur colore le code (mots-clés, types, textes, nombres, commentaires, fonctions), numérote les lignes, met en évidence la ligne courante et les parenthèses associées, affiche des guides d'indentation et permet de <b>plier</b> les blocs (le petit « − » dans la marge).</p>
+<ul>
+  <li><b>Indentation automatique</b> : après <code>Alors</code>, <code>Faire</code>, <code>Debut</code>… la ligne suivante est décalée ; en tapant <code>FinSi</code>, <code>FinPour</code>… la ligne revient à l'alignement du bloc.</li>
+  <li><b>Fermetures automatiques</b> : guillemets et parenthèses.</li>
+  <li><b>Info-bulles</b> : survolez une variable, une fonction ou une procédure pour voir sa déclaration.</li>
+</ul>
+
+<h3 id="autocompletion">Autocomplétion</h3>
+<p>Dès la première lettre, une liste de propositions s'ouvre sous le curseur ; <kbd>Ctrl</kbd>+<kbd>Espace</kbd> l'ouvre à tout moment. La recherche est <b>approchée</b> : majuscules et accents ne comptent pas, et il suffit de taper quelques lettres du nom dans l'ordre (<code>fp</code> trouve <code>FinPour</code>, <code>ecr</code> trouve <code>Ecrire</code>). Les fonctions intégrées se retrouvent aussi par leurs autres noms : <code>sqrt</code> propose <code>Racine</code>, <code>abs</code> propose <code>Absolu</code>. Les lettres retrouvées sont mises en valeur dans la liste.</p>
+<p>Chaque ligne indique la <b>nature</b> de la proposition (pastille de couleur) et, à droite, son type. Sous la liste, un panneau décrit la proposition choisie : signature, explication et, pour un modèle, l'aperçu du code qui sera inséré.</p>
+<table>
+  <tr><th>Touche</th><th>Effet</th></tr>
+  <tr><td><kbd>↑</kbd> <kbd>↓</kbd>, <kbd>Pg.préc</kbd> <kbd>Pg.suiv</kbd></td><td>Choisir une proposition</td></tr>
+  <tr><td><kbd>Entrée</kbd> ou <kbd>Tab</kbd></td><td>Insérer la proposition choisie (double-clic aussi)</td></tr>
+  <tr><td><kbd>Échap</kbd></td><td>Fermer la liste</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Espace</kbd></td><td>Ouvrir la liste ; si elle est ouverte, afficher ou masquer le panneau de description</td></tr>
+</table>
+<table>
+  <tr><th>Nature</th><th>Exemples</th><th>Ce qui est inséré</th></tr>
+  <tr><td>Modèle</td><td><code>Si</code>, <code>Si … Sinon</code>, <code>Pour</code>, <code>Pour … pas</code>, <code>TantQue</code>, <code>Repeter</code>, <code>Fonction</code>, <code>Procedure</code>, <code>Structure</code>, <code>Algorithme (squelette complet)</code></td><td>Le bloc complet. Ses <b>champs</b> (condition, compteur, bornes, nom…) sont encadrés : tapez pour remplacer le premier, <kbd>Tab</kbd> passe au suivant, <kbd>Maj</kbd>+<kbd>Tab</kbd> revient au précédent, <kbd>Échap</kbd> quitte le modèle. Après le dernier champ, le curseur se place dans le corps du bloc.</td></tr>
+  <tr><td>Mot-clé</td><td><code>FinSi</code>, <code>Sinon</code>, <code>Alors</code>, <code>et</code>, <code>mod</code>…</td><td>Le mot ; une fermeture s'aligne sur l'ouverture de son bloc.</td></tr>
+  <tr><td>Variable, paramètre, constante</td><td>Les noms déclarés dans l'algorithme</td><td>En début de ligne : <code>x &lt;- </code> prêt pour l'affectation, <code>t[i] &lt;- </code> pour un tableau, <code>p.</code> pour une structure (la liste des champs s'ouvre aussitôt).</td></tr>
+  <tr><td>Fonction, procédure</td><td>Vos routines et les fonctions intégrées</td><td><code>Puissance(x, n)</code> : chaque argument est un champ. La <b>signature</b> s'affiche au-dessus de la ligne, avec l'argument en cours mis en valeur à chaque virgule.</td></tr>
+  <tr><td>Type, champ</td><td><code>entier</code>, <code>reel</code>… ; champs après <code>p.</code></td><td>Le nom ; <code>tableau</code> insère <code>tableau[10] de </code>.</td></tr>
+</table>
+<p>La liste s'adapte au contexte : en début de ligne elle propose d'abord la fermeture du bloc ouvert (<code>FinPour</code>…), puis les instructions ; dans une condition, <code>Alors</code> / <code>Faire</code> passent en tête ; après <code>:</code> seuls les types sont proposés ; après un point, les champs de la structure. Les propositions que vous choisissez souvent remontent dans la liste. Quand le mot tapé est déjà complet (<code>Fin</code>, <code>Sinon</code>…), la liste se ferme pour qu'<kbd>Entrée</kbd> passe simplement à la ligne.</p>
+
+<h3 id="edition">Outils d'édition</h3>
+<table>
+  <tr><th>Outil</th><th>Raccourci</th></tr>
+  <tr><td>Rechercher / remplacer (barre intégrée, sensible à la casse, mot entier)</td><td><kbd>Ctrl</kbd>+<kbd>F</kbd> / <kbd>Ctrl</kbd>+<kbd>H</kbd></td></tr>
+  <tr><td>Aller à la ligne</td><td><kbd>Ctrl</kbd>+<kbd>G</kbd></td></tr>
+  <tr><td>Commenter / décommenter les lignes sélectionnées</td><td><kbd>Ctrl</kbd>+<kbd>K</kbd> ou <kbd>Ctrl</kbd>+<kbd>/</kbd></td></tr>
+  <tr><td>Dupliquer / supprimer la ligne</td><td><kbd>Ctrl</kbd>+<kbd>D</kbd> / <kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>K</kbd></td></tr>
+  <tr><td>Copier / couper la ligne entière (sans sélection)</td><td><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>Ctrl</kbd>+<kbd>X</kbd></td></tr>
+  <tr><td>Réindenter tout le code</td><td><kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>F</kbd></td></tr>
+  <tr><td>Sélection rectangulaire</td><td><kbd>Alt</kbd> + glisser</td></tr>
+  <tr><td>Convertir les mots-clés en anglais / en français</td><td><b>Édition › Mots-clés en anglais</b> (annulable avec <kbd>Ctrl</kbd>+<kbd>Z</kbd>)</td></tr>
+</table>
+
+<h3 id="verification">Vérification en direct</h3>
+<p>Pendant la frappe, AlgoCraft analyse le code : les erreurs sont soulignées en rouge, les avertissements en orange, et le message s'affiche sous la ligne (option <b>Affichage › Messages d'erreur sous les lignes</b>). Chaque message explique le problème et propose en général un exemple correct.</p>
+<pre><code><span class="cm">// ligne 12 : « Ecrir » n'est pas une instruction connue.</span>
+<span class="cm">//            Vouliez-vous dire « Ecrire » ?  Exemple : Ecrire("Bonjour")</span></code></pre>
+<p><kbd>F7</kbd> lance une vérification complète sans exécuter.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="langage">
+<h2><span class="num">6</span>Le langage algorithmique</h2>
+<div class="note"><b>Bon à savoir</b> Majuscules et accents ne comptent pas : <code>Ecrire</code>, <code>écrire</code> et <code>ECRIRE</code> sont identiques. Les commentaires commencent par <code>//</code>. Le menu <b>Aide › Mémo du langage</b> ouvre un algorithme récapitulatif exécutable.</div>
+
+<h3 id="structure">Structure d'un algorithme</h3>
+<pre><code><span class="kw">Algorithme</span> NomDeLAlgorithme
+
+<span class="kw">Constantes</span>
+    N = <span class="nb">10</span>
+
+<span class="kw">Variables</span>
+    a, b : <span class="ty">entier</span>
+    moyenne : <span class="ty">reel</span>
+
+<span class="kw">Debut</span>
+    <span class="cm">// instructions du programme principal</span>
+<span class="kw">Fin</span>
+
+<span class="cm">// fonctions et procédures : avant ou après le programme principal</span></code></pre>
+
+<h3 id="types">Types et déclarations</h3>
+<table>
+  <tr><th>Type</th><th>Valeurs</th><th>Exemple</th></tr>
+  <tr><td><code>entier</code></td><td>nombres entiers</td><td><code>age : entier</code></td></tr>
+  <tr><td><code>reel</code></td><td>nombres à virgule (on écrit <code>3.5</code>)</td><td><code>prix : reel</code></td></tr>
+  <tr><td><code>chaine</code></td><td>texte entre guillemets</td><td><code>nom : chaine</code></td></tr>
+  <tr><td><code>caractere</code></td><td>un seul caractère</td><td><code>c : caractere</code></td></tr>
+  <tr><td><code>booleen</code></td><td><code>Vrai</code> ou <code>Faux</code></td><td><code>trouve : booleen</code></td></tr>
+  <tr><td><code>tableau[n] de T</code></td><td>n cases de type T (indices 0 à n−1)</td><td><code>notes : tableau[30] de reel</code></td></tr>
+</table>
+<p>Plusieurs variables du même type se déclarent ensemble : <code>i, j, k : entier</code>. Une variable doit être déclarée avant d'être utilisée.</p>
+
+<h3 id="instructions">Instructions de base</h3>
+<table>
+  <tr><th>Instruction</th><th>Rôle</th></tr>
+  <tr><td><code>x &lt;- 5</code></td><td>Affectation (on peut aussi écrire <code>←</code> ou <code>:=</code>).</td></tr>
+  <tr><td><code>Ecrire("Total : ", t)</code></td><td>Affiche les éléments à la suite (aussi <code>Afficher</code>).</td></tr>
+  <tr><td><code>Lire(x)</code></td><td>Demande une valeur dans la console ; la saisie est contrôlée selon le type de <code>x</code>.</td></tr>
+  <tr><td><code>Retourne valeur</code></td><td>Dans une fonction : renvoie le résultat.</td></tr>
+  <tr><td><code>NomProcedure(a, b)</code></td><td>Appel d'une procédure.</td></tr>
+</table>
+
+<h3 id="conditions">Conditions</h3>
+<pre><code><span class="kw">Si</span> note &gt;= <span class="nb">10</span> <span class="kw">Alors</span>
+    Ecrire(<span class="st">"Admis"</span>)
+<span class="kw">SinonSi</span> note &gt;= <span class="nb">8</span> <span class="kw">Alors</span>
+    Ecrire(<span class="st">"Rattrapage"</span>)
+<span class="kw">Sinon</span>
+    Ecrire(<span class="st">"Ajourné"</span>)
+<span class="kw">FinSi</span></code></pre>
+
+<h3 id="boucles">Boucles</h3>
+<pre><code><span class="kw">Pour</span> i <span class="kw">allant de</span> <span class="nb">1</span> <span class="kw">à</span> <span class="nb">10</span> <span class="kw">Faire</span>            <span class="cm">// « pas -1 » pour compter à rebours</span>
+    Ecrire(i)
+<span class="kw">FinPour</span>
+
+<span class="kw">TantQue</span> x &gt; <span class="nb">0</span> <span class="kw">Faire</span>                     <span class="cm">// testée avant chaque tour</span>
+    x &lt;- x div <span class="nb">2</span>
+<span class="kw">FinTantQue</span>
+
+<span class="kw">Repeter</span>                                <span class="cm">// au moins un tour</span>
+    Lire(n)
+<span class="kw">Jusqu'à</span> n &gt; <span class="nb">0</span></code></pre>
+<p>Une boucle qui ne s'arrête pas est interrompue par le bouton <b>Arrêter</b> (<kbd>Maj</kbd>+<kbd>F5</kbd>) ou au bout de la durée maximale réglée dans les préférences.</p>
+
+<h3 id="tableaux">Tableaux</h3>
+<pre><code><span class="kw">Variables</span>
+    t : <span class="ty">tableau[5] de entier</span>          <span class="cm">// t[0] … t[4]</span>
+    m : <span class="ty">tableau[3][4] de reel</span>        <span class="cm">// deux dimensions</span>
+<span class="kw">Debut</span>
+    <span class="kw">Pour</span> i <span class="kw">allant de</span> <span class="nb">0</span> <span class="kw">à</span> <span class="nb">4</span> <span class="kw">Faire</span>
+        t[i] &lt;- i * i
+    <span class="kw">FinPour</span>
+    m[<span class="nb">1</span>][<span class="nb">2</span>] &lt;- <span class="nb">3.5</span>
+<span class="kw">Fin</span></code></pre>
+<p>Un indice hors des limites provoque une erreur claire (« les indices vont de 0 à 4 »).</p>
+
+<h3 id="structures">Structures (enregistrements)</h3>
+<pre><code><span class="kw">Structure</span> Point
+    x, y : <span class="ty">reel</span>
+<span class="kw">FinStructure</span>
+
+<span class="kw">Variables</span>
+    p : <span class="ty">Point</span>
+<span class="kw">Debut</span>
+    p.x &lt;- <span class="nb">2</span>
+    p.y &lt;- <span class="nb">5</span>
+    Ecrire(<span class="st">"("</span>, p.x, <span class="st">", "</span>, p.y, <span class="st">")"</span>)
+<span class="kw">Fin</span></code></pre>
+
+<h3 id="routines">Fonctions et procédures</h3>
+<pre><code><span class="kw">Fonction</span> Carre(x : <span class="ty">entier</span>) : <span class="ty">entier</span>
+<span class="kw">Debut</span>
+    <span class="kw">Retourne</span> x * x
+<span class="kw">FinFonction</span>
+
+<span class="kw">Procedure</span> Echanger(<span class="kw">var</span> a : <span class="ty">entier</span>, <span class="kw">var</span> b : <span class="ty">entier</span>)
+<span class="kw">Variables</span>
+    tmp : <span class="ty">entier</span>
+<span class="kw">Debut</span>
+    tmp &lt;- a
+    a &lt;- b
+    b &lt;- tmp
+<span class="kw">FinProcedure</span></code></pre>
+<ul>
+  <li>Une <b>fonction</b> renvoie une valeur avec <code>Retourne</code> et s'utilise dans une expression : <code>y &lt;- Carre(4)</code>.</li>
+  <li>Une <b>procédure</b> ne renvoie rien et s'appelle comme une instruction : <code>Echanger(x, y)</code>.</li>
+  <li>Par défaut, les paramètres sont passés <b>par valeur</b> (copie). Avec <code>var</code> (ou <code>E/S</code>, <code>ref</code>), le paramètre est passé <b>par référence</b> : la routine modifie la variable de l'appelant.</li>
+  <li>La récursivité est autorisée (exemple « Factorielle »).</li>
+</ul>
+
+<h3 id="operateurs">Opérateurs</h3>
+<table>
+  <tr><th>Catégorie</th><th>Opérateurs</th></tr>
+  <tr><td>Arithmétiques</td><td><code>+ - * /</code>, <code>div</code> (division entière), <code>mod</code> (reste), <code>^</code> (puissance)</td></tr>
+  <tr><td>Comparaison</td><td><code>= &lt;&gt; &lt; &gt; &lt;= &gt;=</code></td></tr>
+  <tr><td>Logiques</td><td><code>ET</code>, <code>OU</code>, <code>NON</code></td></tr>
+  <tr><td>Texte</td><td><code>+</code> concatène deux chaînes</td></tr>
+</table>
+
+<h3 id="integrees">Fonctions intégrées</h3>
+<table>
+  <tr><th>Nombres</th><th>Texte et conversions</th><th>Hasard</th></tr>
+  <tr><td><code>Racine(x)</code>, <code>Absolu(x)</code>, <code>Puissance(x, n)</code>, <code>Arrondi(x[, d])</code>, <code>Ent(x)</code>, <code>Maximum(a, b, …)</code>, <code>Minimum(a, b, …)</code>, <code>Modulo(a, b)</code>, <code>Cos</code>, <code>Sin</code>, <code>Tan</code>, <code>Logarithme</code>, <code>Log10</code>, <code>Exponentielle</code></td>
+      <td><code>Longueur(s)</code>, <code>Majuscule(s)</code>, <code>Minuscule(s)</code>, <code>SousChaine(s, début, longueur)</code>, <code>EnEntier(v)</code>, <code>EnReel(v)</code>, <code>EnChaine(v)</code></td>
+      <td><code>Alea()</code> (réel entre 0 et 1), <code>Alea(n)</code> (entier de 0 à n−1), <code>AleaEntre(a, b)</code></td></tr>
+</table>
+
+<h3 id="anglais">Mots-clés anglais</h3>
+<p>Les mots-clés anglais sont acceptés : <code>Algorithm</code>, <code>Begin</code>, <code>End</code>, <code>Print</code>, <code>Read</code>, <code>If … Then … Else … EndIf</code>, <code>For i from 1 to 10 Do … EndFor</code>, <code>While … Do … EndWhile</code>, <code>Repeat … Until</code>, <code>Function … EndFunction</code>, <code>Procedure … EndProcedure</code>, <code>Return</code>, <code>integer</code>, <code>real</code>, <code>string</code>, <code>boolean</code>, <code>array[n] of T</code>. La commande <b>Édition › Mots-clés en anglais</b> convertit automatiquement tout le code (vos noms de variables, les textes et les commentaires ne changent pas).</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="execution">
+<h2><span class="num">7</span>Exécuter un algorithme</h2>
+<p>Appuyez sur <kbd>F5</kbd> ou cliquez sur <b>Exécuter</b>. L'algorithme est d'abord vérifié ; s'il contient une erreur, elle est signalée et le curseur se place sur la ligne fautive. Sinon il s'exécute dans un fil séparé : l'interface reste utilisable et <b>Arrêter</b> l'interrompt à tout moment.</p>
+
+<h3 id="console">Console et saisies</h3>
+<p>Quand l'algorithme rencontre <code>Lire(x)</code>, la console affiche « Valeur de x : » et attend votre saisie ; validez avec <kbd>Entrée</kbd>. Une saisie incompatible avec le type (du texte pour un entier, par exemple) est refusée avec une explication, et la question est reposée. Les flèches <kbd>↑</kbd> <kbd>↓</kbd> rappellent les saisies précédentes.</p>
+
+<h3 id="pasapas">Exécution pas à pas</h3>
+<p><kbd>F10</kbd> ouvre l'exécution pas à pas : la ligne en cours est surlignée dans l'éditeur, et un tableau montre la valeur de chaque variable avant l'exécution de la ligne. Avancez d'une ligne à la fois et observez l'effet de chaque instruction. Pour revoir une exécution en avant et en arrière, utilisez la <a href="#visualisation">visualisation</a>. C'est l'outil idéal pour comprendre une boucle ou trouver une erreur de logique.</p>
+
+<h3 id="problemes">Onglet Problèmes</h3>
+<p>Les erreurs (rouge) et avertissements (orange) de l'analyse et de l'exécution y sont listés avec leur ligne et leur colonne. Un clic place le curseur sur la ligne. Avertissements typiques : résultat d'une fonction appelé sans être utilisé, compteur de boucle non déclaré, boucle <code>Pour</code> qui devrait sans doute avoir un « pas -1 ».</p>
+
+<h3 id="variables">Onglet Variables</h3>
+<p>À la fin d'une exécution, l'onglet <b>Variables</b> présente toutes les variables du programme principal avec leur type et leur valeur finale (tableaux et structures compris). Double-cliquez sur une ligne pour copier sa valeur.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="traduction">
+<h2><span class="num">8</span>Traduction vers d'autres langages</h2>
+<p>Le panneau de droite affiche en permanence la traduction de l'algorithme dans le langage choisi : <b>Python, C, C++, C#, Java ou JavaScript</b>. Elle se met à jour pendant que vous écrivez. Le code produit est complet et compilable : déclarations, lectures au clavier, tableaux, structures, fonctions et procédures (les paramètres passés par référence sont traduits selon les possibilités de chaque langage, avec un commentaire explicatif).</p>
+<ul>
+  <li>Changez de langage avec les boutons du panneau ou la liste de la barre d'outils.</li>
+  <li><b>Traduction › Ouvrir dans une fenêtre</b> affiche le code dans une fenêtre séparée, avec copie et enregistrement.</li>
+  <li><b>Traduction › Enregistrer le code traduit</b> crée directement le fichier <code>.py</code>, <code>.c</code>, <code>.cpp</code>, <code>.cs</code>, <code>.java</code> ou <code>.js</code>.</li>
+  <li>Le panneau se masque avec <kbd>Ctrl</kbd>+<kbd>T</kbd>.</li>
+</ul>
+<div class="note"><b>Traduction du pseudo-code</b> Pour passer les mots-clés de l'algorithme lui-même du français à l'anglais (ou l'inverse), utilisez <b>Édition › Mots-clés en anglais / en français</b>.</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="algorigramme">
+<h2><span class="num">9</span>Algorigramme</h2>
+<p><b>Outils › Algorigramme</b> dessine l'organigramme normalisé de l'algorithme :</p>
+<table>
+  <tr><th>Forme</th><th>Signification</th></tr>
+  <tr><td>Rectangle à bouts arrondis</td><td>Début / fin</td></tr>
+  <tr><td>Rectangle</td><td>Traitement (affectation)</td></tr>
+  <tr><td>Parallélogramme</td><td>Lecture / écriture</td></tr>
+  <tr><td>Losange</td><td>Condition (Si, TantQue, Jusqu'à) avec ses sorties <b>Oui</b> / <b>Non</b></td></tr>
+  <tr><td>Hexagone</td><td>Boucle Pour (préparation)</td></tr>
+  <tr><td>Rectangle à doubles bords</td><td>Appel de procédure</td></tr>
+</table>
+<p>Les branches d'un <code>Si</code> sont placées côte à côte et se rejoignent ; les boucles ont leur flèche de retour. La liste en haut à gauche permet d'afficher le diagramme du <b>programme principal</b> ou de <b>chaque fonction / procédure</b>.</p>
+<ul>
+  <li><b>Zoom</b> : boutons − / +, <kbd>Ctrl</kbd>+molette, <kbd>Ctrl</kbd>+<kbd>0</kbd> pour ajuster à la fenêtre.</li>
+  <li><b>Déplacement</b> : glisser avec la souris, molette (vertical), <kbd>Maj</kbd>+molette (horizontal), flèches du clavier.</li>
+  <li><b>Export</b> : PNG (image haute résolution), SVG (vectoriel, idéal pour un rapport), ou copie dans le presse-papiers (<kbd>Ctrl</kbd>+<kbd>C</kbd>).</li>
+  <li><b>Actualiser</b> (<kbd>F5</kbd>) reconstruit le diagramme après une modification du code.</li>
+</ul>
+<p>Les couleurs suivent le thème choisi (clair, sombre, nuit bleue).</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="visualisation">
+<h2><span class="num">10</span>Visualisation des tableaux</h2>
+<p><b>Outils › Visualisation des tableaux</b> exécute l'algorithme en enregistrant chaque étape, puis vous laisse <b>rejouer l'exécution</b> comme une vidéo :</p>
+<ul>
+  <li>les tableaux (1, 2 ou 3 dimensions, de tout type) sont dessinés case par case avec leurs indices ; <b>les cases qui viennent de changer sont mises en couleur</b> ;</li>
+  <li>la ligne de code exécutée s'affiche au-dessus ;</li>
+  <li>à droite : les variables (celles qui changent sont en gras) et la console jusqu'à cette étape ;</li>
+  <li>en bas : lecture / pause (<kbd>Espace</kbd>), étape précédente / suivante (<kbd>←</kbd> <kbd>→</kbd>), début / fin (<kbd>Début</kbd> <kbd>Fin</kbd>), vitesse de 0,25× à 10×, et un curseur pour aller directement à n'importe quelle étape.</li>
+</ul>
+<p>Si l'algorithme lit des valeurs, tapez-les à l'avance dans la zone <b>Entrées</b> (séparées par des espaces ou des points-virgules) ; s'il en manque, elles sont demandées pendant l'enregistrement. Cliquez sur <b>Exécuter et enregistrer</b> (<kbd>F5</kbd>) pour recommencer avec d'autres valeurs.</p>
+<div class="astuce"><b>Idéal pour les tris</b> Ouvrez l'exemple « Tri à bulles » puis la visualisation : chaque échange de cases apparaît en couleur.</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="partage">
+<h2><span class="num">11</span>Partager le code</h2>
+<p><b>Outils › Partager le code</b> se fait en trois étapes :</p>
+<ol>
+  <li><b>Que partager ?</b> — le <b>code actuel</b>, un <b>fichier .agc</b>, le <b>code traduit</b> (Python, C, C++, C#, Java, JavaScript, ou le pseudo-code avec mots-clés anglais / français) ou un <b>fichier traduit</b> déjà enregistré (.py, .c, .cpp, .cs, .java, .js).</li>
+  <li><b>Aperçu</b> — le contenu exact qui sera envoyé, coloré, avec son nombre de lignes ; un message d'accompagnement peut être ajouté.</li>
+  <li><b>Envoyer avec</b> — WhatsApp, Telegram, Gmail, votre messagerie (e-mail), copie dans le presse-papiers, ou enregistrement d'une copie dans un fichier.</li>
+</ol>
+<div class="note"><b>Code long</b> Les liens de partage ont une longueur limitée. Pour un long code, AlgoCraft le copie automatiquement : il suffit de le coller (<kbd>Ctrl</kbd>+<kbd>V</kbd>) dans la conversation ou le message qui s'ouvre.</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="exemples">
+<h2><span class="num">12</span>Exemples intégrés</h2>
+<p><b>Fichier › Ouvrir un exemple</b> propose des algorithmes prêts à exécuter, du plus simple au plus avancé :</p>
+<table>
+  <tr><th>Exemple</th><th>Notions</th></tr>
+  <tr><td>Hello World</td><td>variable, affichage</td></tr>
+  <tr><td>Calcul d'une moyenne</td><td>lecture, calcul réel</td></tr>
+  <tr><td>Maximum de deux nombres</td><td>condition Si / Sinon</td></tr>
+  <tr><td>Table de multiplication</td><td>boucle Pour</td></tr>
+  <tr><td>Somme avec TantQue</td><td>boucle TantQue, accumulateur</td></tr>
+  <tr><td>Factorielle (récursivité)</td><td>fonction récursive</td></tr>
+  <tr><td>Tri à bulles</td><td>tableau, boucles imbriquées, échange</td></tr>
+  <tr><td>Dichotomie</td><td>recherche dans un tableau trié</td></tr>
+  <tr><td>Suite de Fibonacci</td><td>suite, variables temporaires</td></tr>
+</table>
+<p>D'autres exemples commentés sont disponibles sur le site d'AlgoCraft.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="personnaliser">
+<h2><span class="num">13</span>Thèmes, langue et préférences</h2>
+<ul>
+  <li><b>Thème</b> (<b>Affichage › Thème</b> ou le bouton de la barre d'outils) : Clair, Sombre, Nuit bleue. Toutes les fenêtres, l'éditeur, la traduction et l'algorigramme suivent le thème.</li>
+  <li><b>Langue de l'interface</b> (<b>Langue</b>, ou le bouton FR/EN) : français ou anglais. Les messages et la console suivent la langue choisie.</li>
+  <li><b>Taille du texte</b> : <kbd>Ctrl</kbd>+molette, <kbd>Ctrl</kbd>+<kbd>+</kbd> / <kbd>Ctrl</kbd>+<kbd>−</kbd>, <kbd>Ctrl</kbd>+<kbd>0</kbd>.</li>
+  <li><b>Vérifier pendant la frappe</b> et <b>Messages d'erreur sous les lignes</b> : dans le menu Affichage.</li>
+</ul>
+<p>Ces réglages, la taille de la fenêtre, les panneaux affichés, les fichiers récents et les fichiers ouverts sont conservés d'une session à l'autre dans <code>%APPDATA%\AlgoCraft\preferences.json</code>. Supprimer ce fichier rétablit les réglages par défaut.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="raccourcis">
+<h2><span class="num">14</span>Raccourcis clavier</h2>
+<table>
+  <tr><th colspan="2">Exécution</th><th colspan="2">Fichiers</th></tr>
+  <tr><td><kbd>F5</kbd></td><td>Exécuter</td><td><kbd>Ctrl</kbd>+<kbd>N</kbd></td><td>Nouveau fichier</td></tr>
+  <tr><td><kbd>Maj</kbd>+<kbd>F5</kbd></td><td>Arrêter</td><td><kbd>Ctrl</kbd>+<kbd>O</kbd></td><td>Ouvrir</td></tr>
+  <tr><td><kbd>F10</kbd></td><td>Pas à pas</td><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>Enregistrer</td></tr>
+  <tr><td><kbd>F7</kbd></td><td>Vérifier sans exécuter</td><td><kbd>Ctrl</kbd>+<kbd>W</kbd></td><td>Fermer le fichier</td></tr>
+  <tr><td></td><td></td><td><kbd>Ctrl</kbd>+<kbd>Tab</kbd></td><td>Fichier suivant</td></tr>
+  <tr><th colspan="2">Édition</th><th colspan="2">Affichage et aide</th></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Espace</kbd></td><td>Suggestions</td><td><kbd>Ctrl</kbd>+<kbd>B</kbd></td><td>Barre latérale</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>F</kbd> / <kbd>H</kbd></td><td>Rechercher / remplacer</td><td><kbd>Ctrl</kbd>+<kbd>T</kbd></td><td>Panneau de traduction</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>G</kbd></td><td>Aller à la ligne</td><td><kbd>Ctrl</kbd>+<kbd>J</kbd></td><td>Console et problèmes</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>K</kbd> ou <kbd>/</kbd></td><td>Commenter</td><td><kbd>Ctrl</kbd>+molette</td><td>Taille du texte</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td>Dupliquer la ligne</td><td><kbd>Ctrl</kbd>+<kbd>0</kbd></td><td>Taille normale</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>K</kbd></td><td>Supprimer la ligne</td><td><kbd>F1</kbd></td><td>Ce manuel</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>F</kbd></td><td>Réindenter</td><td><kbd>Maj</kbd>+<kbd>F1</kbd></td><td>Site web d'AlgoCraft</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="depannage">
+<h2><span class="num">15</span>Questions fréquentes</h2>
+<h3>« Variable non déclarée » alors qu'elle l'est</h3>
+<p>Vérifiez l'orthographe et que la déclaration se trouve bien dans la section <code>Variables</code> du bon bloc : une variable déclarée dans une fonction n'existe pas dans le programme principal.</p>
+<h3>Mon programme ne s'arrête pas</h3>
+<p>Une boucle <code>TantQue</code> dont la condition reste vraie tourne indéfiniment. Cliquez sur <b>Arrêter</b> (<kbd>Maj</kbd>+<kbd>F5</kbd>), puis utilisez le <b>pas à pas</b> pour voir pourquoi la condition ne change pas.</p>
+<h3>Ma procédure ne modifie pas ma variable</h3>
+<p>Le paramètre est passé par valeur. Ajoutez <code>var</code> devant le paramètre : <code>Procedure Doubler(var x : entier)</code>.</p>
+<h3>« Indice hors limites »</h3>
+<p>Les indices commencent à 0 : un tableau <code>tableau[10]</code> va de <code>t[0]</code> à <code>t[9]</code>. Une boucle <code>Pour i allant de 1 à 10</code> déborde au dernier tour.</p>
+<h3>Le code traduit ne compile pas</h3>
+<p>Vérifiez d'abord que l'algorithme s'exécute sans erreur dans AlgoCraft. Si le problème persiste, signalez-le avec le code concerné via <b>Aide › Nous contacter</b>.</p>
+<h3>Les suggestions enregistrées ne s'affichent pas</h3>
+<p>Elles proviennent de la base LocalDB. Si SQL Server LocalDB n'est pas installé, AlgoCraft fonctionne normalement avec les suggestions intégrées.</p>
+<h3>Où sont mes réglages ?</h3>
+<p>Dans <code>%APPDATA%\AlgoCraft\preferences.json</code>. Le journal des erreurs est <code>%LOCALAPPDATA%\AlgoCraft\algocraft.log</code>.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="apropos">
+<h2><span class="num">16</span>À propos</h2>
+<p>AlgoCraft a été conçu et développé pendant 3 ans par les étudiants de TIPAM et TIPDA dans le cadre du cours de Programmation Multicouches sous .NET, sous la responsabilité de leur enseignant, M. NDJE MAN. La liste complète de l'équipe figure dans <b>Aide › À propos d'AlgoCraft</b>.</p>
+<p>Site web, téléchargements, exemples et formulaire de contact : <a href="https://algo-craft-ten.vercel.app/">algo-craft-ten.vercel.app</a>.</p>
+</section>
+
+<footer>AlgoCraft · Manuel d'utilisation · version 2.19 — ce manuel est livré avec l'application et s'ouvre avec <kbd>F1</kbd>.</footer>
+</main>
+</div>
+<a class="haut" href="#">Haut de page</a>
+<script>
+  // Sommaire : section visible mise en évidence
+  const liens = [...document.querySelectorAll('#sommaire a')];
+  const cibles = liens.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const obs = new IntersectionObserver(entrees => {
+    entrees.forEach(e => {
+      if (e.isIntersecting) {
+        liens.forEach(a => a.classList.toggle('actif', a.getAttribute('href') === '#' + e.target.id));
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px' });
+  cibles.forEach(c => obs.observe(c));
+
+  // Recherche : masque les sections qui ne contiennent pas le texte
+  const sansAccents = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  document.getElementById('filtre').addEventListener('input', e => {
+    const q = sansAccents(e.target.value.trim());
+    document.querySelectorAll('main section').forEach(s => s.classList.toggle('cache', q.length > 1 && !sansAccents(s.textContent).includes(q)));
+  });
+</script>
+</body>
+</html>

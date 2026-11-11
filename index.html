@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AlgoCraft — l'éditeur d'algorithmes en pseudo-code français</title>
+<meta name="description" content="AlgoCraft : écrivez vos algorithmes en pseudo-code français, exécutez-les, suivez-les pas à pas, visualisez l'algorigramme et traduisez-les en Python, C, C++, C#, Java ou JavaScript.">
+<meta name="theme-color" content="#14213d">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="evitement" href="#contenu">Aller au contenu</a>
+
+<header class="entete">
+  <div class="cadre entete-int">
+    <a class="marque" href="#accueil" aria-label="AlgoCraft, accueil">AlgoCraft</a>
+    <button class="bouton-menu" id="boutonMenu" aria-expanded="false" aria-controls="menu">Menu</button>
+    <nav id="menu" aria-label="Navigation principale">
+      <a href="#fonctionnalites">Fonctionnalités</a>
+      <a href="#exemples">Exemples</a>
+      <a href="manuel.html">Manuel</a>
+      <a href="#equipe">Équipe</a>
+      <a href="#contact">Contact</a>
+      <a class="lien-telecharger" href="#telecharger">Télécharger</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenu">
+
+<!-- Accueil : le titre domine, l'extrait de code l'accompagne -->
+<section id="accueil" class="accueil">
+  <div class="cadre grille">
+    <div class="accueil-texte">
+      <p class="surtitre">Version 2.19 · Windows 10 et 11</p>
+      <h1>Apprenez l'algorithmique en l'écrivant comme en cours.</h1>
+      <p class="chapo">AlgoCraft exécute votre pseudo-code français, le dessine en algorigramme, montre vos tableaux évoluer case par case et le traduit en Python, C, C++, C#, Java ou JavaScript.</p>
+      <p class="actions">
+        <a class="bouton" href="#telecharger">Télécharger pour Windows</a>
+        <a class="lien-fleche" href="#exemples">Voir des exemples</a>
+      </p>
+    </div>
+    <figure class="feuille" aria-label="Extrait : l'algorithme Moyenne et sa sortie">
+      <figcaption>Moyenne.agc</figcaption>
+      <pre class="listing" id="codeAccueil"></pre>
+      <div class="sortie-accueil">
+        <p class="etiquette">Console</p>
+        <pre id="sortieAccueil"></pre>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- Fonctionnalités : liste éditoriale, titre à gauche -->
+<section id="fonctionnalites" class="section">
+  <div class="cadre grille">
+    <header class="section-titre">
+      <p class="surtitre">Fonctionnalités</p>
+      <h2>Tout ce qu'il faut pour écrire, comprendre et partager un algorithme.</h2>
+    </header>
+    <dl class="fonctions">
+      <div><dt>Éditeur moderne</dt><dd>Coloration syntaxique, indentation automatique, pliage des blocs, recherche et remplacement, onglets pour plusieurs fichiers.</dd></div>
+      <div><dt>Autocomplétion selon le contexte</dt><dd>La fermeture du bloc ouvert, vos variables, vos fonctions avec leur signature, les champs de vos structures, et des modèles de code dont on remplit les champs avec Tab.</dd></div>
+      <div><dt>Exécution immédiate</dt><dd>Lancez avec F5 : saisies dans la console, contrôle des types, arrêt à tout moment, valeur finale de chaque variable.</dd></div>
+      <div><dt>Erreurs expliquées</dt><dd>Les erreurs sont soulignées pendant la frappe, à la ligne et à la colonne exactes, et expliquées en français avec un conseil de correction.</dd></div>
+      <div><dt>Traduction en six langages</dt><dd>Python, C, C++, C#, Java et JavaScript, mis à jour en direct, prêts à compiler. Mots-clés anglais en un clic.</dd></div>
+      <div><dt>Algorigramme</dt><dd>Un organigramme construit à partir de l'algorithme : branches des conditions, retours de boucles, un diagramme par fonction. Export PNG et SVG.</dd></div>
+      <div><dt>Visualisation des tableaux</dt><dd>Rejouez l'exécution : les cases modifiées s'allument, en avant comme en arrière.</dd></div>
+      <div><dt>Partage et export</dt><dd>Envoyez le code ou sa traduction par WhatsApp, Telegram, Gmail ou e-mail, ou exportez-le en PDF, HTML ou LaTeX.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- Trois étapes : section étroite -->
+<section class="section section-etroite">
+  <div class="cadre colonne-texte">
+    <p class="surtitre">De l'énoncé au programme</p>
+    <ol class="etapes">
+      <li><strong>Écrivez</strong> en pseudo-code français, comme au tableau. L'éditeur complète les blocs et signale les erreurs au fil de la frappe.</li>
+      <li><strong>Comprenez</strong> : exécutez, avancez pas à pas, regardez l'algorigramme et l'évolution de vos tableaux.</li>
+      <li><strong>Passez au code</strong> : comparez avec la traduction en Python, Java ou C, puis partagez-la avec votre classe.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- Exemples : section large -->
+<section id="exemples" class="section section-large">
+  <div class="cadre">
+    <header class="section-titre section-titre-ligne">
+      <div>
+        <p class="surtitre">Exemples</p>
+        <h2>Des algorithmes réels, exécutés et traduits par AlgoCraft.</h2>
+      </div>
+      <p class="note">Chaque résultat a été produit par l'application elle-même : sortie de la console, traductions et algorigramme.</p>
+    </header>
+
+    <div class="exemples">
+      <div class="ex-liste" id="exListe" role="tablist" aria-label="Choisir un exemple"></div>
+
+      <div class="ex-code">
+        <div class="ex-barre">
+          <span class="ex-fichier" id="exNom">Algorithme.agc</span>
+          <div class="bascule" role="group" aria-label="Langue des mots-clés">
+            <button type="button" aria-pressed="true" data-langue="fr">FR</button><button type="button" aria-pressed="false" data-langue="en">EN</button>
+          </div>
+        </div>
+        <pre class="listing" id="exCode"></pre>
+      </div>
+
+      <div class="ex-resultat">
+        <div class="ex-onglets" role="tablist" aria-label="Résultat">
+          <button type="button" role="tab" aria-selected="true" data-vue="sortie">Console</button>
+          <button type="button" role="tab" aria-selected="false" data-vue="python">Python</button>
+          <button type="button" role="tab" aria-selected="false" data-vue="java">Java</button>
+          <button type="button" role="tab" aria-selected="false" data-vue="algo">Algorigramme</button>
+        </div>
+        <div class="ex-vue" id="exVue" role="tabpanel"></div>
+        <div class="ex-pied">
+          <span id="exEntrees"></span>
+          <button type="button" class="lien-bouton" id="exCopier">Copier le code</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Télécharger -->
+<section id="telecharger" class="section">
+  <div class="cadre grille">
+    <header class="section-titre">
+      <p class="surtitre">Télécharger</p>
+      <h2>Installez AlgoCraft en une minute.</h2>
+      <p><a class="bouton" id="lienTelechargement" href="telechargements/AlgoCraft-2.19-win-x64.zip">Télécharger AlgoCraft 2.19 (.zip)</a></p>
+      <p class="note">Windows 10 ou 11, 64 bits. Version autonome : .NET est inclus.</p>
+    </header>
+    <div class="telechargement">
+      <h3>Installation</h3>
+      <ol class="numerotee">
+        <li>Décompressez l'archive dans un dossier, par exemple <code>Documents\AlgoCraft</code>.</li>
+        <li>Lancez <code>AlgoCraft.exe</code>.</li>
+        <li>Appuyez sur <kbd>F1</kbd> pour ouvrir le manuel.</li>
+      </ol>
+      <p class="note">Windows peut afficher « Windows a protégé votre ordinateur » pour une application non signée : cliquez sur <strong>Informations complémentaires</strong>, puis sur <strong>Exécuter quand même</strong>.</p>
+
+      <h3>Configuration</h3>
+      <ul class="simple">
+        <li>Windows 10 ou 11, 64 bits</li>
+        <li>Environ 200 Mo d'espace disque</li>
+        <li>SQL Server LocalDB : facultatif (suggestions enregistrées)</li>
+        <li>Aucune connexion Internet nécessaire</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Équipe : liste typographique -->
+<section id="equipe" class="section section-teinte">
+  <div class="cadre grille">
+    <header class="section-titre">
+      <p class="surtitre">L'équipe</p>
+      <h2>Un projet étudiant, conçu sur trois ans.</h2>
+      <p>Ce logiciel a été conçu et développé pendant 3 ans par les étudiants de TIPAM et TIPDA dans le cadre du cours de Programmation Multicouches sous .NET, dispensé par leur enseignant.</p>
+    </header>
+    <div class="equipe">
+      <div class="groupe">
+        <h3>Enseignant responsable</h3>
+        <ul><li>NDJE MAN</li></ul>
+      </div>
+      <div class="groupe">
+        <h3>TIPAM 2 <span>promotion 2024 – 2026</span></h3>
+        <ul>
+          <li>BANGFOFACK BRYAND RAYOL</li>
+          <li>EKO YANNICK LOUIS PHILIPPE</li>
+          <li>NGAMKAM KAMGANG LINDSAY</li>
+          <li>TAYOUO YAN COLING</li>
+          <li>ZUTEU HENRY WILLIAM</li>
+        </ul>
+      </div>
+      <div class="groupe">
+        <h3>TIPDA-1 <span>promotion 2025 – 2026</span></h3>
+        <ul>
+          <li>ESSOME NGWETHE ESPOIR</li>
+          <li>KAMDEM FOTSO ALAN</li>
+          <li>MEKUEKO WILFRIED</li>
+          <li>NGOUNGA MOUNPOU FARIDA</li>
+          <li>OBIOYO BOULOU ROSALIE</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Questions fréquentes : section étroite -->
+<section class="section section-etroite">
+  <div class="cadre colonne-texte">
+    <p class="surtitre">Questions fréquentes</p>
+    <h2>Bon à savoir</h2>
+    <details><summary>Faut-il une connexion Internet ?</summary><p>Non : l'édition, l'exécution, la traduction et l'algorigramme fonctionnent entièrement hors ligne. Internet ne sert qu'au partage et aux liens vers ce site.</p></details>
+    <details><summary>Quelle syntaxe de pseudo-code est acceptée ?</summary><p>La syntaxe française classique (Algorithme, Variables, Debut, Fin, Si… Alors, Pour… allant de… à, TantQue, Répéter… Jusqu'à, Fonction, Procedure, Structure). Majuscules et accents sont ignorés, et les mots-clés anglais sont aussi acceptés. Tout est détaillé dans le <a href="manuel.html#langage">manuel</a>.</p></details>
+    <details><summary>Le code traduit est-il vraiment exécutable ?</summary><p>Oui : AlgoCraft génère un programme complet (déclarations, lectures au clavier, fonctions) que l'on peut compiler ou lancer directement.</p></details>
+    <details><summary>Fonctionne-t-il sur macOS ou Linux ?</summary><p>Pas pour l'instant : AlgoCraft est une application Windows (.NET 8, Windows Forms).</p></details>
+    <details><summary>Mes fichiers sont-ils envoyés sur Internet ?</summary><p>Non. Tout fonctionne hors ligne ; le partage n'a lieu que lorsque vous cliquez sur un bouton de partage.</p></details>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="section">
+  <div class="cadre grille">
+    <header class="section-titre">
+      <p class="surtitre">Contact</p>
+      <h2>Une question, un bug, une idée ?</h2>
+      <p>Pour un problème, joignez le code de l'algorithme concerné : cela nous aide beaucoup.</p>
+    </header>
+    <form id="formContact" class="formulaire" novalidate>
+      <div class="deux">
+        <label>Nom<input name="nom" required autocomplete="name"></label>
+        <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
+      </div>
+      <label>Sujet
+        <select name="sujet">
+          <option>Question</option><option>Signaler un problème</option><option>Suggestion</option><option>Enseignant</option><option>Autre</option>
+        </select>
+      </label>
+      <label>Message<textarea name="message" rows="6" required></textarea></label>
+      <input type="text" name="_gotcha" class="piege" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p><button class="bouton" type="submit" id="btnEnvoyer">Envoyer le message</button></p>
+      <p class="statut" id="statutContact" role="status"></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="pied">
+  <div class="cadre pied-int">
+    <p><span class="marque">AlgoCraft</span><br>Éditeur pédagogique de pseudo-code algorithmique.</p>
+    <nav aria-label="Liens du pied de page">
+      <a href="#fonctionnalites">Fonctionnalités</a>
+      <a href="#exemples">Exemples</a>
+      <a href="#telecharger">Télécharger</a>
+      <a href="manuel.html">Manuel</a>
+      <a href="manuel.html#raccourcis">Raccourcis</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <p class="copyright">© <span id="annee">2026</span> AlgoCraft · TIPAM et TIPDA</p>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/exemples.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
