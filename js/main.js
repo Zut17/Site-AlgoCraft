@@ -117,7 +117,7 @@
   const form = $("#formContact"), statut = $("#statutContact"), bouton = $("#btnEnvoyer");
   const numeroWhatsApp = String(config.WHATSAPP_NUMERO || "").replace(/\D/g, "").replace(/^00/, "");
   function afficherStatut(texte, genre) { statut.textContent = texte; statut.className = "statut " + (genre || ""); }
-  if (numeroWhatsApp) bouton.textContent = "Envoyer sur WhatsApp";
+  if (numeroWhatsApp) bouton.textContent = "Envoyer";
 
   form.addEventListener("submit", e => {
     e.preventDefault();
