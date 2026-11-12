@@ -113,56 +113,51 @@
   // ── Téléchargement ──────────────────────────────────────
   if (config.LIEN_TELECHARGEMENT) $("#lienTelechargement").href = config.LIEN_TELECHARGEMENT;
 
-  // ── Formulaire de contact ───────────────────────────────
-  const form = $("#formContact"), statut = $("#statutContact");
+  // ── Formulaire de contact → WhatsApp ────────────────────
+  const form = $("#formContact"), statut = $("#statutContact"), bouton = $("#btnEnvoyer");
+  const numeroWhatsApp = String(config.WHATSAPP_NUMERO || "").replace(/\D/g, "").replace(/^00/, "");
   function afficherStatut(texte, genre) { statut.textContent = texte; statut.className = "statut " + (genre || ""); }
-  form.addEventListener("submit", async e => {
+  if (numeroWhatsApp) bouton.textContent = "Envoyer sur WhatsApp";
+
+  form.addEventListener("submit", e => {
     e.preventDefault();
     const donnees = Object.fromEntries(new FormData(form));
     if (donnees._gotcha) return;   // robot
     let valide = true;
     for (const champ of ["nom", "email", "message"]) {
       const el = form.elements[champ];
-      const ok = champ === "email" ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()) : el.value.trim().length > 1;
+      const v = el.value.trim();
+      // E-mail facultatif : vérifié seulement s'il est saisi
+      const ok = champ === "email" ? (v === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) : v.length > 1;
       el.classList.toggle("invalide", !ok);
       el.setAttribute("aria-invalid", String(!ok));
       valide = valide && ok;
     }
     if (!valide) { afficherStatut("Merci de vérifier les champs signalés.", "erreur"); return; }
 
-    const sujet = `[AlgoCraft] ${donnees.sujet} — ${donnees.nom}`;
-    // Une adresse e-mail seule dans FORMULAIRE_ENDPOINT est acceptée : elle passe par FormSubmit
-    let adresseEnvoi = (config.FORMULAIRE_ENDPOINT || "").trim();
-    if (adresseEnvoi && !adresseEnvoi.includes("://") && adresseEnvoi.includes("@"))
-      adresseEnvoi = "https://formsubmit.co/ajax/" + adresseEnvoi;
-    if (adresseEnvoi) {
-      const bouton = $("#btnEnvoyer");
-      bouton.disabled = true; bouton.textContent = "Envoi…";
-      try {
-        const r = await fetch(adresseEnvoi, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify({ nom: donnees.nom, email: donnees.email, sujet: donnees.sujet, message: donnees.message, _subject: sujet, _replyto: donnees.email })
-        });
-        const reponse = await r.json().catch(() => ({}));
-        if (!r.ok || reponse.success === false || reponse.success === "false") throw new Error(reponse.message || "HTTP " + r.status);
-        form.reset();
-        afficherStatut("Votre message a bien été envoyé.", "ok");
-      } catch (err) {
-        if (/activat/i.test(err && err.message || "")) {
-          afficherStatut("Le formulaire attend son activation : un e-mail de FormSubmit a été envoyé à l'adresse de réception, cliquez sur son lien puis réessayez.", "erreur");
-          return;
-        }
-        afficherStatut("L'envoi a échoué. Réessayez plus tard" + (config.CONTACT_EMAIL ? " ou écrivez à " + config.CONTACT_EMAIL : "") + ".", "erreur");
-      } finally {
-        bouton.disabled = false; bouton.textContent = "Envoyer le message";
-      }
-    } else if (config.CONTACT_EMAIL) {
-      const corps = `${donnees.message}\n\n— ${donnees.nom} (${donnees.email})`;
+    const nom = donnees.nom.trim(), email = (donnees.email || "").trim();
+
+    if (numeroWhatsApp) {
+      const texte =
+        `*AlgoCraft — ${donnees.sujet}*\n` +
+        `De : ${nom}` + (email ? ` (${email})` : "") + `\n\n` +
+        donnees.message.trim();
+      const lien = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(texte)}`;
+      // Ouvert pendant le clic (sinon bloqué) ; sur mobile, l'application WhatsApp prend le relais
+      const fenetre = window.open(lien, "_blank", "noopener");
+      if (!fenetre) window.location.href = lien;
+      afficherStatut("WhatsApp s'ouvre avec votre message déjà rédigé : il ne reste qu'à appuyer sur Envoyer.", "ok");
+      form.reset();
+      return;
+    }
+
+    const sujet = `[AlgoCraft] ${donnees.sujet} — ${nom}`;
+    if (config.CONTACT_EMAIL) {
+      const corps = `${donnees.message}\n\n— ${nom}` + (email ? ` (${email})` : "");
       window.location.href = `mailto:${config.CONTACT_EMAIL}?subject=${encodeURIComponent(sujet)}&body=${encodeURIComponent(corps)}`;
       afficherStatut("Votre messagerie s'ouvre avec le message prêt à envoyer (" + config.CONTACT_EMAIL + ").", "ok");
     } else {
-      afficherStatut("Le formulaire n'est pas encore relié à une adresse de réception (voir js/config.js).", "erreur");
+      afficherStatut("Le formulaire n'est pas encore relié : renseignez WHATSAPP_NUMERO dans js/config.js.", "erreur");
     }
   });
 

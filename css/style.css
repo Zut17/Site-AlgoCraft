@@ -265,6 +265,7 @@ details p { color: var(--texte-2); padding-bottom: var(--e2); margin: 0; max-wid
 /* Contact */
 .formulaire { grid-column: 6 / span 6; }
 .formulaire label { display: block; font: 500 var(--t-s)/1.4 var(--sans); color: var(--texte); margin-bottom: var(--e3); }
+.formulaire .facultatif { font-weight: 400; color: var(--texte-2); }
 .formulaire .deux { display: grid; grid-template-columns: 1fr 1fr; gap: var(--e3); }
 .formulaire input, .formulaire select, .formulaire textarea {
   display: block; width: 100%; margin-top: var(--e1);
