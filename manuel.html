@@ -4,82 +4,76 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Manuel d'utilisation — AlgoCraft</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* Même direction artistique que le site : papier crème, encre bleu nuit, or en accent ;
-     Newsreader (titres) et IBM Plex Sans (texte) si disponibles, sinon Georgia et Segoe UI. */
   :root {
-    --fond: #faf8f3; --panneau: #f2eee4; --barre: #ebe5d8; --bord: #ddd6c7; --trait: #857d6b;
-    --texte: #1c1f26; --doux: #545a66; --encre: #14213d; --or: #b5832a; --blanc: #fff;
-    --accent: #14213d; --vert: #1f5c32; --rouge: #a12a1c; --orange: #7a4f12; --violet: #14213d;
-    --serif: "Newsreader", Georgia, "Times New Roman", serif;
-    --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
-    --mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+    --fond: #ffffff; --panneau: #f6f7f9; --barre: #eef0f4; --bord: #e1e4ea; --texte: #1f2430; --doux: #5d6577;
+    --accent: #2563eb; --accent-doux: #e8efff; --vert: #15803d; --rouge: #b91c1c; --orange: #b45309; --violet: #7c3aed;
+    --code-fond: #f3f5f9; --ombre: 0 1px 2px rgba(16,24,40,.06), 0 4px 16px rgba(16,24,40,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fond: #15171c; --panneau: #1b1e24; --barre: #20242b; --bord: #2c313a; --texte: #e6e8ee; --doux: #9aa3b5;
+      --accent: #6aa1ff; --accent-doux: #1d2a44; --vert: #4ade80; --rouge: #f87171; --orange: #fbbf24; --violet: #c4a1ff;
+      --code-fond: #1f232b; --ombre: none;
+    }
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  body { margin: 0; font: 400 16px/1.7 var(--sans); color: var(--texte); background: var(--fond); -webkit-font-smoothing: antialiased; }
-  a { color: var(--encre); text-decoration: underline; text-decoration-color: #bfb6a3; text-underline-offset: 3px; }
-  a:hover { text-decoration-color: var(--or); }
-  :focus-visible { outline: 2px solid var(--encre); outline-offset: 2px; }
-  .page { display: grid; grid-template-columns: 296px minmax(0, 1fr); min-height: 100vh; }
-  nav { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: var(--fond); border-right: 1px solid var(--bord); padding: 32px 24px 48px; }
-  .logo { font: 600 22px/1 var(--serif); color: var(--encre); margin: 0 0 8px; }
-  .logo span.icone { display: none; }
-  .sous-logo { color: var(--doux); font-size: 13px; margin: 0 0 24px; }
-  .sous-logo a { color: var(--doux); }
-  #filtre { width: 100%; padding: 8px 12px; border: 1px solid var(--trait); border-radius: 2px; background: var(--blanc); color: var(--texte); font: inherit; font-size: 14px; margin-bottom: 16px; }
-  nav ol { list-style: none; padding: 0; margin: 0; }
-  nav li > a { display: block; padding: 4px 0 4px 12px; border-left: 2px solid transparent; color: var(--texte); font-size: 14px; text-decoration: none; }
-  nav li > a:hover { border-left-color: var(--bord); }
-  nav li > a.actif { border-left-color: var(--or); color: var(--encre); font-weight: 600; }
-  nav ol ol { margin: 0 0 8px 12px; } nav ol ol a { color: var(--doux); font-size: 13px; }
-  main { padding: 64px 64px 96px; max-width: 920px; }
-  header.titre { padding: 0 0 32px; margin-bottom: 16px; border-bottom: 1px solid var(--bord); }
-  header.titre h1 { margin: 0 0 16px; font: 400 48px/1.08 var(--serif); color: var(--encre); letter-spacing: -0.02em; max-width: 16ch; }
-  header.titre p { margin: 0; font: 400 20px/1.55 var(--serif); color: var(--texte); max-width: 40ch; }
-  h2 { font: 500 32px/1.2 var(--serif); color: var(--encre); margin: 80px 0 16px; padding-top: 24px; border-top: 1px solid var(--bord); letter-spacing: -0.01em; }
-  h2 .num { font: 400 32px/1 var(--serif); color: var(--or); margin-right: 16px; }
-  h3 { font: 500 22px/1.3 var(--serif); color: var(--encre); margin: 40px 0 8px; }
-  h4 { font: 600 15px/1.4 var(--sans); margin: 24px 0 8px; }
-  p, li { max-width: 68ch; }
-  code { font-family: var(--mono); font-size: 0.88em; background: var(--panneau); padding: 1px 6px; border-radius: 2px; }
-  pre { font: 13.5px/1.65 var(--mono); background: var(--blanc); border: 1px solid var(--bord); padding: 16px 24px; overflow-x: auto; margin: 16px 0 24px; }
-  pre code { background: none; padding: 0; font-size: inherit; }
-  .kw { color: var(--encre); font-weight: 600; } .ty { color: var(--encre); } .st { color: #7a4f12; } .cm { color: var(--doux); font-style: italic; } .nb { color: var(--texte); }
-  kbd { display: inline-block; min-width: 22px; padding: 0 6px; border: 1px solid #bfb6a3; border-bottom-width: 2px; border-radius: 2px; background: var(--blanc); font: 12.5px/1.6 var(--mono); text-align: center; }
-  table { border-collapse: collapse; width: 100%; margin: 16px 0 24px; font-size: 14.5px; }
-  th, td { text-align: left; padding: 8px 16px 8px 0; border-bottom: 1px solid var(--bord); vertical-align: top; }
-  th { font-weight: 600; color: var(--encre); border-bottom-color: var(--trait); }
-  .note, .astuce, .attention { border-left: 2px solid var(--or); padding: 4px 0 4px 16px; margin: 24px 0; max-width: 68ch; }
-  .astuce { border-color: var(--vert); }
-  .attention { border-color: var(--rouge); }
-  .note b:first-child, .astuce b:first-child, .attention b:first-child { display: block; margin-bottom: 2px; color: var(--encre); }
-  .zones { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0 32px; margin: 16px 0; border-top: 1px solid var(--bord); }
-  .zone { padding: 16px 0; border-bottom: 1px solid var(--bord); }
-  .zone h4 { margin: 0 0 4px; font: 500 17px/1.3 var(--serif); color: var(--encre); } .zone p { margin: 0; font-size: 14px; color: var(--doux); }
-  .schema { border: 1px solid var(--bord); margin: 16px 0; font-size: 12.5px; background: var(--blanc); }
-  .schema .l1 { padding: 8px 16px; border-bottom: 1px solid var(--bord); }
+  html { scroll-behavior: smooth; scroll-padding-top: 20px; }
+  body { margin: 0; font: 15.5px/1.65 "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--texte); background: var(--fond); }
+  a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+  .page { display: grid; grid-template-columns: 290px minmax(0, 1fr); min-height: 100vh; }
+  nav { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: var(--panneau); border-right: 1px solid var(--bord); padding: 22px 16px 40px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 19px; margin: 0 6px 4px; }
+  .logo span.icone { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--accent); color: #fff; font: 700 14px Consolas, monospace; }
+  .sous-logo { color: var(--doux); font-size: 13px; margin: 0 6px 16px; }
+  #filtre { width: 100%; padding: 8px 11px; border: 1px solid var(--bord); border-radius: 8px; background: var(--fond); color: var(--texte); font: inherit; font-size: 14px; margin-bottom: 12px; }
+  nav ol { list-style: none; padding: 0; margin: 0; counter-reset: ch; }
+  nav li > a { display: block; padding: 5px 10px; border-radius: 6px; color: var(--texte); font-size: 14px; }
+  nav li > a:hover { background: var(--barre); text-decoration: none; }
+  nav li > a.actif { background: var(--accent-doux); color: var(--accent); font-weight: 600; }
+  nav ol ol { margin: 0 0 4px 12px; } nav ol ol a { color: var(--doux); font-size: 13px; padding: 3px 10px; }
+  main { padding: 40px 56px 80px; max-width: 980px; }
+  header.titre { padding: 30px 32px; border-radius: 16px; background: linear-gradient(120deg, var(--accent), #1e3a8a); color: #fff; margin-bottom: 34px; box-shadow: var(--ombre); }
+  header.titre h1 { margin: 0 0 6px; font-size: 30px; } header.titre p { margin: 0; opacity: .9; }
+  h2 { font-size: 24px; margin: 52px 0 12px; padding-top: 6px; border-top: 1px solid var(--bord); }
+  h2 .num { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 15px; margin-right: 10px; vertical-align: 3px; }
+  h3 { font-size: 18px; margin: 28px 0 8px; }
+  p, li { color: var(--texte); }
+  code, kbd, pre { font-family: Consolas, "Cascadia Mono", monospace; }
+  code { background: var(--code-fond); border: 1px solid var(--bord); border-radius: 5px; padding: 0 5px; font-size: 13.5px; }
+  pre { background: var(--code-fond); border: 1px solid var(--bord); border-radius: 10px; padding: 14px 16px; overflow-x: auto; font-size: 13.5px; line-height: 1.55; }
+  pre code { border: 0; padding: 0; background: none; }
+  .kw { color: var(--accent); font-weight: 600; } .ty { color: var(--violet); } .st { color: var(--orange); } .cm { color: var(--doux); font-style: italic; } .nb { color: var(--vert); }
+  kbd { display: inline-block; min-width: 22px; padding: 1px 7px; border: 1px solid var(--bord); border-bottom-width: 2px; border-radius: 6px; background: var(--panneau); font-size: 12.5px; text-align: center; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0 18px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--bord); vertical-align: top; }
+  th { background: var(--panneau); font-weight: 600; }
+  .note, .astuce, .attention { border-left: 4px solid var(--accent); background: var(--accent-doux); padding: 10px 16px; border-radius: 0 10px 10px 0; margin: 14px 0; }
+  .astuce { border-color: var(--vert); background: color-mix(in srgb, var(--vert) 10%, var(--fond)); }
+  .attention { border-color: var(--orange); background: color-mix(in srgb, var(--orange) 10%, var(--fond)); }
+  .note b:first-child, .astuce b:first-child, .attention b:first-child { display: block; margin-bottom: 2px; }
+  .zones { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin: 14px 0; }
+  .zone { border: 1px solid var(--bord); border-radius: 12px; padding: 14px 16px; background: var(--panneau); }
+  .zone h4 { margin: 0 0 4px; font-size: 15px; } .zone p { margin: 0; font-size: 14px; color: var(--doux); }
+  .schema { border: 1px solid var(--bord); border-radius: 12px; overflow: hidden; margin: 16px 0; font-size: 12.5px; }
+  .schema .l1 { background: var(--barre); padding: 6px 12px; border-bottom: 1px solid var(--bord); }
   .schema .corps { display: grid; grid-template-columns: 22% 1fr 30%; min-height: 220px; }
-  .schema .corps > div { padding: 8px 16px; border-right: 1px solid var(--bord); }
-  .schema .bas { border-top: 1px solid var(--bord); padding: 8px 16px; }
-  .schema b { color: var(--encre); }
-  .haut { position: fixed; right: 24px; bottom: 24px; padding: 8px 12px; border: 1px solid var(--trait); background: var(--fond); color: var(--encre); font-size: 13px; text-decoration: none; }
-  .haut:hover { border-color: var(--encre); }
-  footer { margin-top: 80px; color: var(--doux); font-size: 13.5px; border-top: 1px solid var(--bord); padding-top: 16px; }
+  .schema .corps > div { padding: 10px 12px; border-right: 1px solid var(--bord); }
+  .schema .bas { border-top: 1px solid var(--bord); padding: 8px 12px; background: var(--panneau); }
+  .schema b { color: var(--accent); }
+  .haut { position: fixed; right: 22px; bottom: 22px; width: 42px; height: 42px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; box-shadow: var(--ombre); font-size: 20px; }
+  .haut:hover { text-decoration: none; filter: brightness(1.1); }
+  footer { margin-top: 60px; color: var(--doux); font-size: 13.5px; border-top: 1px solid var(--bord); padding-top: 16px; }
   .cache { display: none !important; }
-  @media (max-width: 900px) { .page { grid-template-columns: 1fr; } nav { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--bord); } main { padding: 32px 24px 64px; } header.titre h1 { font-size: 36px; } }
-  @media print { nav, .haut, #filtre { display: none; } .page { display: block; } main { max-width: none; padding: 0; } h2 { break-before: page; } }
+  @media (max-width: 900px) { .page { grid-template-columns: 1fr; } nav { position: static; height: auto; } main { padding: 24px 20px 60px; } }
+  @media print { nav, .haut, #filtre { display: none; } .page { display: block; } main { max-width: none; padding: 0; } h2 { break-before: page; } header.titre { background: none; color: #000; box-shadow: none; padding: 0; } }
 </style>
 </head>
 <body>
 <div class="page">
 <nav aria-label="Sommaire">
-  <div class="logo">AlgoCraft</div>
-  <div class="sous-logo">Manuel d'utilisation · version 2.19<br><a href="https://algocraft-wheat.vercel.app/">Site d'AlgoCraft</a></div>
+  <div class="logo"><span class="icone">&lt;/&gt;</span> AlgoCraft</div>
+  <div class="sous-logo">Manuel d'utilisation · version 4.11</div>
   <input id="filtre" type="search" placeholder="Rechercher dans le manuel…" aria-label="Rechercher dans le manuel">
   <ol id="sommaire">
     <li><a href="#presentation">1. Présentation</a></li>
@@ -88,11 +82,11 @@
       <ol><li><a href="#menus">Menus et barre d'outils</a></li><li><a href="#lateral">Barre latérale</a></li><li><a href="#panneau-bas">Panneau du bas</a></li><li><a href="#barre-etat">Barre d'état</a></li></ol></li>
     <li><a href="#fichiers">4. Fichiers et projets</a></li>
     <li><a href="#editeur">5. L'éditeur de code</a>
-      <ol><li><a href="#autocompletion">Autocomplétion</a></li><li><a href="#edition">Outils d'édition</a></li><li><a href="#verification">Vérification en direct</a></li></ol></li>
+      <ol><li><a href="#autocompletion">Autocomplétion</a></li><li><a href="#edition">Outils d'édition</a></li><li><a href="#verification">Vérification en direct</a></li><li><a href="#corrections">Corrections automatiques</a></li></ol></li>
     <li><a href="#langage">6. Le langage algorithmique</a>
       <ol><li><a href="#structure">Structure d'un algorithme</a></li><li><a href="#types">Types et déclarations</a></li><li><a href="#instructions">Instructions</a></li><li><a href="#conditions">Conditions</a></li><li><a href="#boucles">Boucles</a></li><li><a href="#tableaux">Tableaux</a></li><li><a href="#structures">Structures</a></li><li><a href="#routines">Fonctions et procédures</a></li><li><a href="#operateurs">Opérateurs</a></li><li><a href="#integrees">Fonctions intégrées</a></li><li><a href="#anglais">Mots-clés anglais</a></li></ol></li>
     <li><a href="#execution">7. Exécuter un algorithme</a>
-      <ol><li><a href="#console">Console et saisies</a></li><li><a href="#pasapas">Pas à pas</a></li><li><a href="#problemes">Problèmes</a></li><li><a href="#variables">Variables</a></li></ol></li>
+      <ol><li><a href="#console">Console et saisies</a></li><li><a href="#points-arret">Points d'arrêt</a></li><li><a href="#pasapas">Pas à pas et tableau de suivi</a></li><li><a href="#problemes">Problèmes</a></li><li><a href="#variables">Variables</a></li></ol></li>
     <li><a href="#traduction">8. Traduction vers d'autres langages</a></li>
     <li><a href="#algorigramme">9. Algorigramme</a></li>
     <li><a href="#visualisation">10. Visualisation des tableaux</a></li>
@@ -145,8 +139,10 @@
   <li>Lancez <code>AlgoCraft version 2.0.exe</code>. Au premier lancement, l'extension <code>.agc</code> est associée à AlgoCraft : un double-clic sur un fichier <code>.agc</code> l'ouvrira directement.</li>
 </ol>
 <h3>Premier démarrage</h3>
-<p>Après l'écran de chargement, AlgoCraft ouvre un algorithme d'accueil qui montre une fonction et une procédure. Appuyez sur <kbd>F5</kbd> pour l'exécuter : le résultat s'affiche dans la console, en bas.</p>
+<p>Après l'écran de chargement, AlgoCraft affiche la <b>page d'accueil</b> : créer un fichier ou un projet, ouvrir un fichier, reprendre un fichier récent, ouvrir le mémo du langage, ce manuel ou un exemple. <kbd>Échap</kbd> ou la croix la ferme et montre l'algorithme d'accueil (une fonction et une procédure) : appuyez sur <kbd>F5</kbd> pour l'exécuter. La page revient par <b>Fichier › Page d'accueil</b> ; décochez « Afficher cette page au démarrage » pour ne plus la voir.</p>
 <p>Aux démarrages suivants, AlgoCraft <b>rouvre les fichiers qui étaient ouverts</b> lors de la dernière fermeture, ainsi que le fichier actif.</p>
+<p><b>Récupération.</b> Toutes les 30 secondes, AlgoCraft garde une copie des fichiers modifiés et pas encore enregistrés. Si l'ordinateur s'éteint ou si AlgoCraft se ferme brutalement, il propose au démarrage suivant de rouvrir ces fichiers tels qu'ils étaient. Après une fermeture normale, les copies sont effacées.</p>
+<p><b>Mises à jour.</b> Au démarrage (au plus une fois par jour), AlgoCraft regarde si une nouvelle version est publiée. Si c'est le cas, « ⬆ Version … disponible » apparaît dans la barre d'état : un clic montre les nouveautés et propose <b>Installer maintenant</b> (téléchargement de l'installateur, fermeture d'AlgoCraft après proposition d'enregistrer, puis installation), <b>Plus tard</b> ou <b>Ignorer cette version</b>. Vérification à la demande : <b>Aide › Rechercher des mises à jour…</b></p>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -225,24 +221,15 @@
 </ul>
 
 <h3 id="autocompletion">Autocomplétion</h3>
-<p>Dès la première lettre, une liste de propositions s'ouvre sous le curseur ; <kbd>Ctrl</kbd>+<kbd>Espace</kbd> l'ouvre à tout moment. La recherche est <b>approchée</b> : majuscules et accents ne comptent pas, et il suffit de taper quelques lettres du nom dans l'ordre (<code>fp</code> trouve <code>FinPour</code>, <code>ecr</code> trouve <code>Ecrire</code>). Les fonctions intégrées se retrouvent aussi par leurs autres noms : <code>sqrt</code> propose <code>Racine</code>, <code>abs</code> propose <code>Absolu</code>. Les lettres retrouvées sont mises en valeur dans la liste.</p>
-<p>Chaque ligne indique la <b>nature</b> de la proposition (pastille de couleur) et, à droite, son type. Sous la liste, un panneau décrit la proposition choisie : signature, explication et, pour un modèle, l'aperçu du code qui sera inséré.</p>
+<p>Dès les premières lettres, une liste de propositions s'ouvre ; <kbd>Ctrl</kbd>+<kbd>Espace</kbd> l'ouvre à tout moment. Chaque proposition porte une <b>pastille de couleur</b> qui indique sa nature :</p>
 <table>
-  <tr><th>Touche</th><th>Effet</th></tr>
-  <tr><td><kbd>↑</kbd> <kbd>↓</kbd>, <kbd>Pg.préc</kbd> <kbd>Pg.suiv</kbd></td><td>Choisir une proposition</td></tr>
-  <tr><td><kbd>Entrée</kbd> ou <kbd>Tab</kbd></td><td>Insérer la proposition choisie (double-clic aussi)</td></tr>
-  <tr><td><kbd>Échap</kbd></td><td>Fermer la liste</td></tr>
-  <tr><td><kbd>Ctrl</kbd>+<kbd>Espace</kbd></td><td>Ouvrir la liste ; si elle est ouverte, afficher ou masquer le panneau de description</td></tr>
+  <tr><th>Pastille</th><th>Nature</th><th>Ce qui est inséré</th></tr>
+  <tr><td>Mot-clé / modèle</td><td><code>Si</code>, <code>Pour</code>, <code>TantQue</code>…</td><td>Le bloc complet (par exemple <code>Si … Alors</code> / <code>FinSi</code>), curseur placé au bon endroit.</td></tr>
+  <tr><td>Variable, paramètre, constante</td><td>Les noms déclarés dans l'algorithme</td><td>En début de ligne : <code>x &lt;- </code> prêt pour l'affectation.</td></tr>
+  <tr><td>Fonction, procédure</td><td>Vos routines et les fonctions intégrées</td><td><code>Nom()</code> avec le curseur entre les parenthèses, puis la <b>signature</b> s'affiche.</td></tr>
+  <tr><td>Type, champ</td><td><code>entier</code>, <code>reel</code>… ; champs après <code>p.</code></td><td>Le nom.</td></tr>
 </table>
-<table>
-  <tr><th>Nature</th><th>Exemples</th><th>Ce qui est inséré</th></tr>
-  <tr><td>Modèle</td><td><code>Si</code>, <code>Si … Sinon</code>, <code>Pour</code>, <code>Pour … pas</code>, <code>TantQue</code>, <code>Repeter</code>, <code>Fonction</code>, <code>Procedure</code>, <code>Structure</code>, <code>Algorithme (squelette complet)</code></td><td>Le bloc complet. Ses <b>champs</b> (condition, compteur, bornes, nom…) sont encadrés : tapez pour remplacer le premier, <kbd>Tab</kbd> passe au suivant, <kbd>Maj</kbd>+<kbd>Tab</kbd> revient au précédent, <kbd>Échap</kbd> quitte le modèle. Après le dernier champ, le curseur se place dans le corps du bloc.</td></tr>
-  <tr><td>Mot-clé</td><td><code>FinSi</code>, <code>Sinon</code>, <code>Alors</code>, <code>et</code>, <code>mod</code>…</td><td>Le mot ; une fermeture s'aligne sur l'ouverture de son bloc.</td></tr>
-  <tr><td>Variable, paramètre, constante</td><td>Les noms déclarés dans l'algorithme</td><td>En début de ligne : <code>x &lt;- </code> prêt pour l'affectation, <code>t[i] &lt;- </code> pour un tableau, <code>p.</code> pour une structure (la liste des champs s'ouvre aussitôt).</td></tr>
-  <tr><td>Fonction, procédure</td><td>Vos routines et les fonctions intégrées</td><td><code>Puissance(x, n)</code> : chaque argument est un champ. La <b>signature</b> s'affiche au-dessus de la ligne, avec l'argument en cours mis en valeur à chaque virgule.</td></tr>
-  <tr><td>Type, champ</td><td><code>entier</code>, <code>reel</code>… ; champs après <code>p.</code></td><td>Le nom ; <code>tableau</code> insère <code>tableau[10] de </code>.</td></tr>
-</table>
-<p>La liste s'adapte au contexte : en début de ligne elle propose d'abord la fermeture du bloc ouvert (<code>FinPour</code>…), puis les instructions ; dans une condition, <code>Alors</code> / <code>Faire</code> passent en tête ; après <code>:</code> seuls les types sont proposés ; après un point, les champs de la structure. Les propositions que vous choisissez souvent remontent dans la liste. Quand le mot tapé est déjà complet (<code>Fin</code>, <code>Sinon</code>…), la liste se ferme pour qu'<kbd>Entrée</kbd> passe simplement à la ligne.</p>
+<p>La liste s'adapte au contexte : en début de ligne elle propose d'abord la fermeture du bloc ouvert (<code>FinPour</code>…), puis les instructions ; dans une condition, <code>Alors</code> / <code>Faire</code> passent en tête ; après <code>:</code> seuls les types sont proposés ; après un point, les champs de la structure. Une description de chaque proposition s'affiche au-dessus de la ligne. Validez avec <kbd>Entrée</kbd> ou <kbd>Tab</kbd>, fermez avec <kbd>Échap</kbd>.</p>
 
 <h3 id="edition">Outils d'édition</h3>
 <table>
@@ -252,7 +239,10 @@
   <tr><td>Commenter / décommenter les lignes sélectionnées</td><td><kbd>Ctrl</kbd>+<kbd>K</kbd> ou <kbd>Ctrl</kbd>+<kbd>/</kbd></td></tr>
   <tr><td>Dupliquer / supprimer la ligne</td><td><kbd>Ctrl</kbd>+<kbd>D</kbd> / <kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>K</kbd></td></tr>
   <tr><td>Copier / couper la ligne entière (sans sélection)</td><td><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>Ctrl</kbd>+<kbd>X</kbd></td></tr>
-  <tr><td>Réindenter tout le code</td><td><kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>F</kbd></td></tr>
+  <tr><td><b>Formater le code</b> : indentation des blocs, espaces autour des opérateurs et après les virgules, casse habituelle des mots-clés (<code>si</code> → <code>Si</code>), lignes vides en trop retirées. Les textes et les commentaires ne changent pas.</td><td><kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>F</kbd></td></tr>
+  <tr><td><b>Renommer</b> une variable, une constante, un paramètre ou une fonction partout où elle apparaît. Une variable locale n'est renommée que dans sa fonction ; les textes, les commentaires et les champs <code>p.x</code> ne sont pas touchés.</td><td><kbd>F2</kbd></td></tr>
+  <tr><td><b>Aller à la définition</b> du nom sous le curseur (sa déclaration, ou l'en-tête de la fonction)</td><td><kbd>F12</kbd> ou <kbd>Ctrl</kbd> + clic</td></tr>
+  <tr><td><b>Corriger l'erreur</b> de la ligne (voir ci-dessous)</td><td><kbd>Ctrl</kbd>+<kbd>.</kbd></td></tr>
   <tr><td>Sélection rectangulaire</td><td><kbd>Alt</kbd> + glisser</td></tr>
   <tr><td>Convertir les mots-clés en anglais / en français</td><td><b>Édition › Mots-clés en anglais</b> (annulable avec <kbd>Ctrl</kbd>+<kbd>Z</kbd>)</td></tr>
 </table>
@@ -262,6 +252,21 @@
 <pre><code><span class="cm">// ligne 12 : « Ecrir » n'est pas une instruction connue.</span>
 <span class="cm">//            Vouliez-vous dire « Ecrire » ?  Exemple : Ecrire("Bonjour")</span></code></pre>
 <p><kbd>F7</kbd> lance une vérification complète sans exécuter.</p>
+
+<h3 id="corrections">Corrections automatiques</h3>
+<p>Beaucoup d'erreurs se corrigent en un geste. Le message sous la ligne se termine alors par <b>[Ctrl+. : corriger]</b> et, dans l'onglet <b>Problèmes</b>, une ligne <b>Corriger : …</b> est cliquable. <kbd>Ctrl</kbd>+<kbd>.</kbd> ouvre la liste des corrections de la ligne (ou va au prochain problème qui en a). Chaque correction s'annule avec <kbd>Ctrl</kbd>+<kbd>Z</kbd>.</p>
+<table>
+  <tr><th>Erreur</th><th>Correction proposée</th></tr>
+  <tr><td><code>Si x &gt; 0</code> sans <code>Alors</code></td><td>Ajouter « Alors » en fin de ligne (« Then » en anglais)</td></tr>
+  <tr><td>Bloc resté ouvert : <code>Fin</code> arrive avant <code>FinSi</code>, <code>FinPour</code>…</td><td>Ajouter la fermeture manquante juste avant, à la bonne indentation</td></tr>
+  <tr><td>Mot de fermeture en trop (<code>FinPour</code> sans <code>Pour</code>)</td><td>Supprimer la ligne</td></tr>
+  <tr><td><code>x = 3</code> pour affecter</td><td>Remplacer « = » par « &lt;- »</td></tr>
+  <tr><td><code>Si x &lt;- 2 Alors</code></td><td>Remplacer « &lt;- » par « = »</td></tr>
+  <tr><td>Faute de frappe : <code>Ecrie</code>, <code>compteu</code>, <code>Racin(4)</code>, <code>entiere</code></td><td>Remplacer par le nom proche (<code>Ecrire</code>, <code>compteur</code>, <code>Racine</code>, <code>entier</code>)</td></tr>
+  <tr><td>Variable non déclarée, compteur de boucle non déclaré</td><td>L'ajouter dans la section <code>Variables</code> (créée si besoin)</td></tr>
+  <tr><td>Boucle <code>Pour</code> qui devrait compter à rebours</td><td>Ajouter « pas -1 »</td></tr>
+  <tr><td>Texte seul sur une ligne : <code>"Bonjour"</code></td><td>L'afficher : <code>Ecrire("Bonjour")</code></td></tr>
+</table>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -405,14 +410,25 @@
 <h3 id="console">Console et saisies</h3>
 <p>Quand l'algorithme rencontre <code>Lire(x)</code>, la console affiche « Valeur de x : » et attend votre saisie ; validez avec <kbd>Entrée</kbd>. Une saisie incompatible avec le type (du texte pour un entier, par exemple) est refusée avec une explication, et la question est reposée. Les flèches <kbd>↑</kbd> <kbd>↓</kbd> rappellent les saisies précédentes.</p>
 
-<h3 id="pasapas">Exécution pas à pas</h3>
-<p><kbd>F10</kbd> ouvre l'exécution pas à pas : la ligne en cours est surlignée dans l'éditeur, et un tableau montre la valeur de chaque variable avant l'exécution de la ligne. Avancez d'une ligne à la fois et observez l'effet de chaque instruction. Pour revoir une exécution en avant et en arrière, utilisez la <a href="#visualisation">visualisation</a>. C'est l'outil idéal pour comprendre une boucle ou trouver une erreur de logique.</p>
+<h3 id="points-arret">Points d'arrêt</h3>
+<p>Cliquez dans la marge, à gauche des numéros de ligne (ou appuyez sur <kbd>F9</kbd>) : un <b>rond rouge</b> marque un point d'arrêt. Lancez ensuite l'exécution avec <kbd>F5</kbd> : elle s'arrête <b>avant</b> chaque ligne marquée, la ligne est surlignée et l'onglet <b>Variables</b> montre la valeur actuelle de chaque variable (en couleur : ce qui a changé depuis la pause précédente).</p>
+<ul>
+  <li><kbd>F5</kbd> (le bouton devient <b>Continuer</b>) : reprendre jusqu'au prochain point d'arrêt ;</li>
+  <li><kbd>F10</kbd> (le bouton devient <b>Ligne suivante</b>) : exécuter la ligne et s'arrêter sur la suivante ;</li>
+  <li><kbd>Maj</kbd>+<kbd>F5</kbd> : arrêter l'exécution.</li>
+</ul>
+<p>Dans une boucle, l'exécution s'arrête à chaque tour. Les points d'arrêt suivent leurs lignes quand vous modifiez le code ; chaque fichier garde les siens. <kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>F9</kbd> (ou un clic sur « ● n point(s) d'arrêt » dans la barre d'état) les supprime tous.</p>
+
+<h3 id="pasapas">Exécution pas à pas et tableau de suivi</h3>
+<p><kbd>F10</kbd> ouvre la fenêtre d'exécution pas à pas : la ligne en cours est surlignée, l'<b>inspecteur</b> montre la valeur de chaque variable avant la ligne. Avancez d'une ligne avec <kbd>F10</kbd> ; <kbd>F5</kbd> continue jusqu'au prochain point d'arrêt de l'éditeur (ou jusqu'à la fin).</p>
+<p>L'onglet <b>Tableau de suivi</b> construit automatiquement le tableau que l'on fait au tableau en classe : une ligne par instruction exécutée (numéro, ligne du code, instruction) et une colonne par variable, avec sa valeur juste après l'instruction. Les valeurs qui viennent de changer sont en couleur et en gras. Un double-clic sur une ligne la surligne dans le code. <b>Copier</b> le met dans le presse-papiers (à coller dans Excel ou Word) ; <b>Exporter CSV…</b> l'enregistre en fichier ouvrable dans Excel. Le tableau s'arrête à 5 000 instructions.</p>
+<p>Pour revoir une exécution en avant et en arrière, utilisez la <a href="#visualisation">visualisation</a>.</p>
 
 <h3 id="problemes">Onglet Problèmes</h3>
 <p>Les erreurs (rouge) et avertissements (orange) de l'analyse et de l'exécution y sont listés avec leur ligne et leur colonne. Un clic place le curseur sur la ligne. Avertissements typiques : résultat d'une fonction appelé sans être utilisé, compteur de boucle non déclaré, boucle <code>Pour</code> qui devrait sans doute avoir un « pas -1 ».</p>
 
 <h3 id="variables">Onglet Variables</h3>
-<p>À la fin d'une exécution, l'onglet <b>Variables</b> présente toutes les variables du programme principal avec leur type et leur valeur finale (tableaux et structures compris). Double-cliquez sur une ligne pour copier sa valeur.</p>
+<p>À la fin d'une exécution, l'onglet <b>Variables</b> présente toutes les variables du programme principal avec leur type et leur valeur finale (tableaux et structures compris). Pendant une pause sur un <a href="#points-arret">point d'arrêt</a>, il montre les valeurs actuelles. Double-cliquez sur une ligne pour copier sa valeur.</p>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -504,6 +520,7 @@
   <li><b>Langue de l'interface</b> (<b>Langue</b>, ou le bouton FR/EN) : français ou anglais. Les messages et la console suivent la langue choisie.</li>
   <li><b>Taille du texte</b> : <kbd>Ctrl</kbd>+molette, <kbd>Ctrl</kbd>+<kbd>+</kbd> / <kbd>Ctrl</kbd>+<kbd>−</kbd>, <kbd>Ctrl</kbd>+<kbd>0</kbd>.</li>
   <li><b>Vérifier pendant la frappe</b> et <b>Messages d'erreur sous les lignes</b> : dans le menu Affichage.</li>
+  <li><b>Mode présentation</b> (<kbd>F11</kbd>, <b>Affichage › Mode présentation</b>) : plein écran, barre latérale et traduction masquées, texte du code et de la console agrandi, pour projeter en classe. <kbd>F11</kbd> ou <kbd>Échap</kbd> pour revenir.</li>
 </ul>
 <p>Ces réglages, la taille de la fenêtre, les panneaux affichés, les fichiers récents et les fichiers ouverts sont conservés d'une session à l'autre dans <code>%APPDATA%\AlgoCraft\preferences.json</code>. Supprimer ce fichier rétablit les réglages par défaut.</p>
 </section>
@@ -517,7 +534,8 @@
   <tr><td><kbd>Maj</kbd>+<kbd>F5</kbd></td><td>Arrêter</td><td><kbd>Ctrl</kbd>+<kbd>O</kbd></td><td>Ouvrir</td></tr>
   <tr><td><kbd>F10</kbd></td><td>Pas à pas</td><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>Enregistrer</td></tr>
   <tr><td><kbd>F7</kbd></td><td>Vérifier sans exécuter</td><td><kbd>Ctrl</kbd>+<kbd>W</kbd></td><td>Fermer le fichier</td></tr>
-  <tr><td></td><td></td><td><kbd>Ctrl</kbd>+<kbd>Tab</kbd></td><td>Fichier suivant</td></tr>
+  <tr><td><kbd>F9</kbd></td><td>Point d'arrêt</td><td><kbd>Ctrl</kbd>+<kbd>Tab</kbd></td><td>Fichier suivant</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>F9</kbd></td><td>Supprimer les points d'arrêt</td><td></td><td></td></tr>
   <tr><th colspan="2">Édition</th><th colspan="2">Affichage et aide</th></tr>
   <tr><td><kbd>Ctrl</kbd>+<kbd>Espace</kbd></td><td>Suggestions</td><td><kbd>Ctrl</kbd>+<kbd>B</kbd></td><td>Barre latérale</td></tr>
   <tr><td><kbd>Ctrl</kbd>+<kbd>F</kbd> / <kbd>H</kbd></td><td>Rechercher / remplacer</td><td><kbd>Ctrl</kbd>+<kbd>T</kbd></td><td>Panneau de traduction</td></tr>
@@ -525,7 +543,10 @@
   <tr><td><kbd>Ctrl</kbd>+<kbd>K</kbd> ou <kbd>/</kbd></td><td>Commenter</td><td><kbd>Ctrl</kbd>+molette</td><td>Taille du texte</td></tr>
   <tr><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td>Dupliquer la ligne</td><td><kbd>Ctrl</kbd>+<kbd>0</kbd></td><td>Taille normale</td></tr>
   <tr><td><kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>K</kbd></td><td>Supprimer la ligne</td><td><kbd>F1</kbd></td><td>Ce manuel</td></tr>
-  <tr><td><kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>F</kbd></td><td>Réindenter</td><td><kbd>Maj</kbd>+<kbd>F1</kbd></td><td>Site web d'AlgoCraft</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>F</kbd></td><td>Formater le code</td><td><kbd>Maj</kbd>+<kbd>F1</kbd></td><td>Site web d'AlgoCraft</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>.</kbd></td><td>Corriger l'erreur</td><td><kbd>F11</kbd></td><td>Mode présentation</td></tr>
+  <tr><td><kbd>F2</kbd></td><td>Renommer</td><td></td><td></td></tr>
+  <tr><td><kbd>F12</kbd> ou <kbd>Ctrl</kbd>+clic</td><td>Aller à la définition</td><td></td><td></td></tr>
 </table>
 </section>
 
@@ -552,13 +573,13 @@
 <section id="apropos">
 <h2><span class="num">16</span>À propos</h2>
 <p>AlgoCraft a été conçu et développé pendant 3 ans par les étudiants de TIPAM et TIPDA dans le cadre du cours de Programmation Multicouches sous .NET, sous la responsabilité de leur enseignant, M. NDJE MAN. La liste complète de l'équipe figure dans <b>Aide › À propos d'AlgoCraft</b>.</p>
-<p>Site web, téléchargements, exemples et formulaire de contact : <a href="https://algocraft-wheat.vercel.app/">algo-craft-ten.vercel.app</a>.</p>
+<p>Site web, téléchargements, exemples et formulaire de contact : <a href="https://algo-craft-ten.vercel.app/">algo-craft-ten.vercel.app</a>.</p>
 </section>
 
-<footer>AlgoCraft · Manuel d'utilisation · version 2.19 — ce manuel est livré avec l'application et s'ouvre avec <kbd>F1</kbd>.</footer>
+<footer>AlgoCraft · Manuel d'utilisation · version 4.11 — ce manuel est livré avec l'application et s'ouvre avec <kbd>F1</kbd>.</footer>
 </main>
 </div>
-<a class="haut" href="#">Haut de page</a>
+<a class="haut" href="#" aria-label="Revenir en haut">↑</a>
 <script>
   // Sommaire : section visible mise en évidence
   const liens = [...document.querySelectorAll('#sommaire a')];
