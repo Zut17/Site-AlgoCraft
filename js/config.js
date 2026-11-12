@@ -17,7 +17,7 @@ window.ALGOCRAFT_CONFIG = {
   // Adresse e-mail de l'équipe (utilisée si FORMULAIRE_ENDPOINT est vide).
   CONTACT_EMAIL: "zuteuhenrywilliam@gmail.com",
 
-  // Lien de téléchargement de l'application (fichier dans telechargements/ ou lien externe,
-  // par exemple une « Release » GitHub).
-  LIEN_TELECHARGEMENT: "telechargements/AlgoCraft-2.19-win-x64.zip"
+  // Lien de téléchargement de l'installateur. Il pointe vers la dernière « Release » GitHub :
+  // publiez une nouvelle Release avec un fichier nommé exactement Setup_AlgoCraft.exe et le lien suit tout seul.
+  LIEN_TELECHARGEMENT: "https://github.com/Zut17/AlgoCraft/releases/latest/download/Setup_AlgoCraft.exe"
 };
