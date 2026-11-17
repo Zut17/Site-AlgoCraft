@@ -19,5 +19,5 @@ window.ALGOCRAFT_CONFIG = {
 
   // Lien de téléchargement de l'installateur. Il pointe vers la dernière « Release » GitHub :
   // publiez une nouvelle Release avec un fichier nommé exactement Setup_AlgoCraft.exe et le lien suit tout seul.
-  LIEN_TELECHARGEMENT: "https://github.com/Zut17/AlgoCraft/releases/latest/download/Setup_AlgoCraft.exe"
+  LIEN_TELECHARGEMENT: "https://github.com/Zut17/Site-AlgoCraft/releases/latest/download/Setup_AlgoCraft.exe"
 };
